@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/components/achats.dart';
 import 'package:mobile_app/components/navbar.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,10 +14,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Page'),
-    Text('Search Page'),
-    Text('Profile Page'),
+  static final List<Widget> _widgetOptions = <Widget>[
+    GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 1,
+        mainAxisExtent: 70,
+      ),
+      itemCount: 8,
+
+      itemBuilder: (context, index) => Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            //bottom: BorderSide(color: Colors.grey, width: 1.0),
+            top: BorderSide(color: Colors.grey, width: 0.5),
+          ),
+        ),
+        child: const Achats(),
+      ),
+    ),
+    const Text('Search Page'),
+    const Text('Profile Page'),
   ];
 
   void _onItemTapped(int index) {
@@ -31,22 +49,29 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-
       bottomNavigationBar: SizedBox(
-        height:60,
+        height: 60,
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 20,),
+              icon: Icon(
+                Icons.home,
+                size: 20,
+              ),
               label: 'Home',
-
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, size: 20,),
+              icon: Icon(
+                Icons.search,
+                size: 20,
+              ),
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 20,),
+              icon: Icon(
+                Icons.person,
+                size: 20,
+              ),
               label: 'Profile',
             ),
           ],
@@ -59,7 +84,6 @@ class _HomePageState extends State<HomePage> {
           unselectedFontSize: 14,
         ),
       ),
-
       drawer: const NavBar(),
     );
   }
