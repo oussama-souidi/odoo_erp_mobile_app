@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/components/achats.dart';
+import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/components/navbar.dart';
 
 
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
             top: BorderSide(color: Colors.grey, width: 0.5),
           ),
         ),
-        child: const Achats(),
+        child: Achats(),
       ),
     ),
     const Text('Search Page'),
