@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/modules/achats/achats.dart';
-import 'package:mobile_app/modules/achats/components/details_page.dart';
 import 'package:mobile_app/components/navbar.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,37 +14,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
-    Scaffold(
-      floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => details_page()));
-          },
-          backgroundColor: const Color(0xff8c7bc9),
-          child: const Icon(Icons.add, color: Colors.white,),
-
-          // ...
-        ),
-      ),
-
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 1,
-          mainAxisExtent: 70,
-        ),
-        itemCount: 1,
-        itemBuilder: (context, index) => Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              //bottom: BorderSide(color: Colors.grey, width: 1.0),
-              top: BorderSide(color: Colors.grey, width: 0.5),
-            ),
-          ),
-          child: Achats(),
-        ),
-      ),
-    ),
+    Achats(),
+    const Text("Hedhi Mazelet"),
+    const Text("Hata hedhi mazelet")
   ];
 
   void _onItemTapped(int index) {
