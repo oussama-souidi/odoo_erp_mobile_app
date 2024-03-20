@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class details_page extends StatefulWidget {
@@ -10,17 +11,18 @@ class details_page extends StatefulWidget {
 class _details_pageState extends State<details_page> {
   DateTime? selectedDate;
   bool isChecked = false;
+  final Map<String, DateTime?> selectedDates = {};
 
-  Future<void> _selectDate(BuildContext context) async {
-    final pickedDate = await showDatePicker(
+  Future<void> _selectDate(BuildContext context, String dateKey) async {
+    var pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
+      initialDate: selectedDates[dateKey] ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
     if (pickedDate != null) {
       setState(() {
-        selectedDate = pickedDate;
+        selectedDates[dateKey] = pickedDate;
       });
     }
   }
@@ -41,12 +43,12 @@ class _details_pageState extends State<details_page> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20,),
-              Text(
+              const SizedBox(height: 20,),
+              const Text(
                 'Demande de prix',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -56,13 +58,13 @@ class _details_pageState extends State<details_page> {
                     fontWeight: FontWeight.w100,
                     color: Colors.grey[700]),
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(left: 5),
                   hintText: 'Nom, numéro de TVA, email ou référence',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -72,12 +74,12 @@ class _details_pageState extends State<details_page> {
                     fontWeight: FontWeight.w100,
                     color: Colors.grey[700]),
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 5)
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -89,13 +91,13 @@ class _details_pageState extends State<details_page> {
               ),
               TextField(
                 readOnly: true, // Disable text editing
-                onTap: () => _selectDate(context),
+                onTap: () => _selectDate(context, "echeance"),
                 decoration: InputDecoration(
-                  hintText: selectedDate?.toString().substring(0, 10) ?? 'Select Date',
-                  contentPadding: EdgeInsets.only(left: 5)
+                  hintText: selectedDates["echeance"]?.toString().substring(0, 10) ?? 'Select Date',
+                  contentPadding: const EdgeInsets.only(left: 5),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -107,13 +109,14 @@ class _details_pageState extends State<details_page> {
               ),
               TextField(
                 readOnly: true, // Disable text editing
-                onTap: () => _selectDate(context),
+                onTap: () => _selectDate(context, "arrivee"),
+
                 decoration: InputDecoration(
-                  hintText: selectedDate?.toString().substring(0, 10) ?? 'Select Date',
-                  contentPadding: EdgeInsets.only(left: 5)
+                  hintText: selectedDates["arrivee"]?.toString().substring(0, 10) ?? 'Select Date',
+                  contentPadding: const EdgeInsets.only(left: 5),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 children: [
                   Checkbox(
@@ -132,6 +135,31 @@ class _details_pageState extends State<details_page> {
                   ),
                 ],
               ),
+              const SizedBox(height: 40,),
+              TextButton(
+                onPressed: () {},
+                onHover: (_) {},
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
+                  decoration: BoxDecoration(
+                    color: const Color(0xff8c7bc9),
+                    borderRadius: BorderRadius.circular(8),
+
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Ajouter",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+
+              )
             ],
           ),
         ),

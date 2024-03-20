@@ -44,7 +44,7 @@ class ListItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300, width: 2),
+            border: Border.all(color: Colors.grey.shade300, width: 1),
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
             boxShadow: [
