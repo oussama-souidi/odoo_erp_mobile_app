@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           selectedItemColor: Colors.white,
           backgroundColor: const Color(0xff453c67),
           onTap: _onItemTapped,
-          unselectedItemColor: Colors.grey[300],
+          unselectedItemColor: Colors.grey.shade400,
           selectedFontSize: 16,
           unselectedFontSize: 14,
         ),
