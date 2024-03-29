@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/achats/components/details_page.dart';
 import 'package:mobile_app/modules/achats/components/list_item.dart';
 
@@ -10,6 +11,8 @@ class Achats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Achats"),),
+      drawer: NavBar(),
       backgroundColor: Colors.grey.shade100,
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(

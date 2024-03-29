@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/modules/achats/achats.dart';
+import 'package:mobile_app/modules/achats/components/details_page.dart';
+import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/login_page.dart';
 
 class NavBar extends StatelessWidget {
@@ -31,7 +34,10 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home, color: Color(0xff001950),),
             title: const Text('Accueil'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => HomePage()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.storefront, color: Color(0xff001950),),
@@ -51,7 +57,10 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.payments, color: Color(0xff001950),),
             title: const Text('Achats'),
-            onTap: () {},
+            onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Achats()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.inventory_2, color: Color(0xff001950),),

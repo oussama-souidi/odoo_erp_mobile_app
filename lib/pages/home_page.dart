@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
-    Achats(),
+    const Text("Home page"),
     const Text("Hedhi Mazelet"),
     const Text("Hata hedhi mazelet")
   ];
