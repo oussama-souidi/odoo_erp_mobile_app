@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 
 class ProductItem extends StatelessWidget {
-  /*final String fournisseur;
-  final String montant;
-  final String id;
-  final String date;
-  final String etat;*/
+  final String produit;
+  final String quantite;
+  final String prixUnitaire;
+  final String prix_horsTax;
+  final String prix_avecTax;
 
-  const ProductItem({super.key});
+  const ProductItem({super.key, required this.produit, required this.quantite, required this.prixUnitaire, required this.prix_horsTax, required this.prix_avecTax});
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class ProductItem extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: 20),
+                vertical: 8.0, horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment:
@@ -39,25 +40,25 @@ class ProductItem extends StatelessWidget {
                   CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Produit 1",
+                      this.produit,
                       style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "Quantite : 1.00",
+                      "Quantite : "+ this.quantite,
                       style: TextStyle(
                           fontSize: 16.0,
-                          fontWeight: FontWeight.w100,
+                          fontWeight: FontWeight.w300,
                           color: Colors.grey[700]),
                     ),
                   ],
                 ),
                 Text(
-                  "Prix unitaire : 200.00",
+                  "Prix unitaire : "+ this.prixUnitaire,
                   style: TextStyle(
                       fontSize: 16.0,
-                      fontWeight: FontWeight.w100,
+                      fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
               ],
@@ -69,14 +70,14 @@ class ProductItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hors taxes : \n 600",
+                Text("Hors taxes : \n "+this.prix_horsTax,
                     style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold)),
                 SizedBox(
                   height: 10,
                 ),
-                Text("Avec taxes: \n 690",
+                Text("Avec taxes: \n "+this.prix_avecTax,
                     style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold)),

@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
-
-import 'fake_repository.dart';
-import 'list_item.dart';
 
 class details_page extends StatefulWidget {
   const details_page({super.key});
+
 
   @override
   State<details_page> createState() => _details_pageState();
@@ -67,7 +64,7 @@ class _details_pageState extends State<details_page> {
                 'Fournisseur',
                 style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w300,
                     color: Colors.grey[700]),
               ),
               const TextField(
@@ -83,7 +80,7 @@ class _details_pageState extends State<details_page> {
                 'Référence fournisseur',
                 style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w300,
                     color: Colors.grey[700]),
               ),
               const TextField(
@@ -97,7 +94,7 @@ class _details_pageState extends State<details_page> {
                 'Échéance de commande',
                 style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w300,
                     color: Colors.grey[700]),
               ),
               TextField(
@@ -106,7 +103,7 @@ class _details_pageState extends State<details_page> {
                 decoration: InputDecoration(
                   hintText:
                       selectedDates["echeance"]?.toString().substring(0, 10) ??
-                          'Select Date',
+                          'Choisir date',
                   contentPadding: const EdgeInsets.only(left: 5),
                 ),
               ),
@@ -117,7 +114,7 @@ class _details_pageState extends State<details_page> {
                 'Arrivée prévue',
                 style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w300,
                     color: Colors.grey[700]),
               ),
               TextField(
@@ -127,7 +124,7 @@ class _details_pageState extends State<details_page> {
                 decoration: InputDecoration(
                   hintText:
                       selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                          'Select Date',
+                          'Choisir date',
                   contentPadding: const EdgeInsets.only(left: 5),
                 ),
               ),
@@ -147,22 +144,19 @@ class _details_pageState extends State<details_page> {
                   Text('Demande de confirmation',
                       style: TextStyle(
                           fontSize: 15.0,
-                          fontWeight: FontWeight.w100,
+                          fontWeight: FontWeight.w300,
                           color: Colors.grey[700])),
                 ],
               ),
               const SizedBox(
                 height: 40,
               ),
-
-
               Text(
                 'Produits',
                 style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
-
               ),
               SizedBox(
                 height: 30,
@@ -179,7 +173,7 @@ class _details_pageState extends State<details_page> {
                   ),
                   child: const Center(
                     child: Text(
-                      "Ajouter",
+                      "Ajouter produit",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -189,22 +183,25 @@ class _details_pageState extends State<details_page> {
                   ),
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
-
               SizedBox(
-                height: 500,
+                height: _data.length*130,
                 child: GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 1,
                             mainAxisExtent: 120,
                             mainAxisSpacing: 10),
-                    itemCount: 3,
+                    itemCount: _data.length,
                     itemBuilder: (context, index) {
-                      return ProductItem();
+                      return ProductItem(
+                          produit: _data[index].produit,
+                          quantite: _data[index].quantite,
+                          prixUnitaire: _data[index].prixUnitaire,
+                          prix_horsTax: _data[index].prix_horsTax,
+                          prix_avecTax: _data[index].prix_avecTax);
                     }),
               ),
             ],
