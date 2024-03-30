@@ -100,7 +100,7 @@ class _details_pageState extends State<AjouterProduit> {
               ),
               const TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 5)),
+                    contentPadding: EdgeInsets.only(left: 5), hintText: "0%"),
               ),
               const SizedBox(
                 height: 30,
@@ -123,7 +123,42 @@ class _details_pageState extends State<AjouterProduit> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0), // Circular border
+                      ),
+                      backgroundColor: const Color(0xff8c7bc9),
+                      foregroundColor: Colors.white,
+                      shadowColor: Colors.grey.withOpacity(0.5), // Shadow color
+                      // Shadow offset
+                      elevation: 2.0, // Button elevation for shadow
+                    ),
+                    child: Text("Enregistrer & Fermer"),
+                  ),
+                  const SizedBox(width: 20.0), // Add spacing between buttons
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0), // Circular border
+                      ),
+                      backgroundColor: const Color(0xff8c7bc9),
+                      foregroundColor: Colors.white,
+                      shadowColor: Colors.grey.withOpacity(0.5),
+                      elevation: 2.0, // Button elevation for shadow
+                    ),
+                    child: Text("Annuler"),
+                  ),
+                ],
               ),
             ],
           ),
