@@ -11,7 +11,7 @@ class Achats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Achats"),),
+      appBar: AppBar(title: Text("Achats"),backgroundColor: Colors.white,),
       drawer: NavBar(),
       backgroundColor: Colors.grey.shade100,
       floatingActionButton: Builder(

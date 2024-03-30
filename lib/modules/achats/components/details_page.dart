@@ -6,7 +6,6 @@ import 'package:mobile_app/modules/achats/produits/product_item.dart';
 class details_page extends StatefulWidget {
   const details_page({super.key});
 
-
   @override
   State<details_page> createState() => _details_pageState();
 }
@@ -36,17 +35,16 @@ class _details_pageState extends State<details_page> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xff8c7bc9),
+        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
-          color: Colors.white,
+          color: Colors.black87,
         ),
         title: const Text(
           "Nouvelle commande",
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          style: TextStyle(color: Colors.black87, fontSize: 20),
         ),
       ),
       body: SingleChildScrollView(
-
         child: Container(
           color: Colors.grey.shade100,
           child: Padding(
@@ -105,9 +103,10 @@ class _details_pageState extends State<details_page> {
                   readOnly: true, // Disable text editing
                   onTap: () => _selectDate(context, "echeance"),
                   decoration: InputDecoration(
-                    hintText:
-                        selectedDates["echeance"]?.toString().substring(0, 10) ??
-                            'Choisir date',
+                    hintText: selectedDates["echeance"]
+                            ?.toString()
+                            .substring(0, 10) ??
+                        'Choisir date',
                     contentPadding: const EdgeInsets.only(left: 5),
                   ),
                 ),
@@ -167,8 +166,10 @@ class _details_pageState extends State<details_page> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AjouterProduit()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AjouterProduit()));
                   },
                   onHover: (_) {},
                   child: Container(
@@ -194,7 +195,7 @@ class _details_pageState extends State<details_page> {
                   height: 20,
                 ),
                 SizedBox(
-                  height: _data.length*130,
+                  height: _data.length * 130,
                   child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -213,6 +214,94 @@ class _details_pageState extends State<details_page> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade400),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 5,
+                  )
+            ]),
+        child: BottomAppBar(
+          color: Colors.transparent,
+          elevation: 8,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => details_page()));
+                },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 15.0),
+                  // Add padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10.0), // Circular border
+                  ),
+                  backgroundColor: const Color(0xff8c7bc9),
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.grey.withOpacity(0.5),
+                  // Shadow color
+                  // Shadow offset
+                  elevation: 2.0, // Button elevation for shadow
+                ),
+                child: Text("Confirmer"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => details_page()));
+                },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 15.0),
+                  // Add padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.circular(10.0), // Circular border
+                  ),
+                  backgroundColor: const Color(0xff8c7bc9),
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.grey.withOpacity(0.5),
+                  // Shadow color
+                  // Shadow offset
+                  elevation: 2.0, // Button elevation for shadow
+                ),
+
+                child: Text("Imprimer la demande de prix"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => details_page()));
+                },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 15.0),
+                  // Add padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(10.0), // Circular border
+                  ),
+                  backgroundColor: Colors.grey.shade300,
+                  foregroundColor: Colors.black,
+                  shadowColor: Colors.grey.withOpacity(0.5),
+                  elevation: 2.0, // Button elevation for shadow
+                ),
+                child: Text("Annuler"),
+              ),
+
+            ],
           ),
         ),
       ),
