@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/modules/achats/produits/ajouter_produit.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
 
@@ -45,166 +46,173 @@ class _details_pageState extends State<details_page> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Demande de prix',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Fournisseur',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.grey[700]),
-              ),
-              const TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 5),
-                  hintText: 'Nom, numéro de TVA, email ou référence',
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Référence fournisseur',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.grey[700]),
-              ),
-              const TextField(
-                decoration:
-                    InputDecoration(contentPadding: EdgeInsets.only(left: 5)),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Échéance de commande',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.grey[700]),
-              ),
-              TextField(
-                readOnly: true, // Disable text editing
-                onTap: () => _selectDate(context, "echeance"),
-                decoration: InputDecoration(
-                  hintText:
-                      selectedDates["echeance"]?.toString().substring(0, 10) ??
-                          'Choisir date',
-                  contentPadding: const EdgeInsets.only(left: 5),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Arrivée prévue',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.grey[700]),
-              ),
-              TextField(
-                readOnly: true, // Disable text editing
-                onTap: () => _selectDate(context, "arrivee"),
 
-                decoration: InputDecoration(
-                  hintText:
-                      selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                          'Choisir date',
-                  contentPadding: const EdgeInsets.only(left: 5),
+        child: Container(
+          color: Colors.grey.shade100,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: isChecked,
-                    onChanged: (bool? newValue) {
-                      setState(() {
-                        isChecked = newValue!;
-                      });
-                    },
+                const Text(
+                  'Demande de prix',
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Fournisseur',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey[700]),
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 5),
+                    hintText: 'Nom, numéro de TVA, email ou référence',
                   ),
-                  Text('Demande de confirmation',
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700])),
-                ],
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              Text(
-                'Produits',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              TextButton(
-                onPressed: () {},
-                onHover: (_) {},
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(8),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Référence fournisseur',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey[700]),
+                ),
+                const TextField(
+                  decoration:
+                      InputDecoration(contentPadding: EdgeInsets.only(left: 5)),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Échéance de commande',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey[700]),
+                ),
+                TextField(
+                  readOnly: true, // Disable text editing
+                  onTap: () => _selectDate(context, "echeance"),
+                  decoration: InputDecoration(
+                    hintText:
+                        selectedDates["echeance"]?.toString().substring(0, 10) ??
+                            'Choisir date',
+                    contentPadding: const EdgeInsets.only(left: 5),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "Ajouter produit",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Arrivée prévue',
+                  style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey[700]),
+                ),
+                TextField(
+                  readOnly: true, // Disable text editing
+                  onTap: () => _selectDate(context, "arrivee"),
+
+                  decoration: InputDecoration(
+                    hintText:
+                        selectedDates["arrivee"]?.toString().substring(0, 10) ??
+                            'Choisir date',
+                    contentPadding: const EdgeInsets.only(left: 5),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          isChecked = newValue!;
+                        });
+                      },
+                    ),
+                    Text('Demande de confirmation',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey[700])),
+                  ],
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  'Produits',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AjouterProduit()));
+                  },
+                  onHover: (_) {},
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Ajouter produit",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: _data.length*130,
-                child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            mainAxisExtent: 120,
-                            mainAxisSpacing: 10),
-                    itemCount: _data.length,
-                    itemBuilder: (context, index) {
-                      return ProductItem(
-                          produit: _data[index].produit,
-                          quantite: _data[index].quantite,
-                          prixUnitaire: _data[index].prixUnitaire,
-                          prix_horsTax: _data[index].prix_horsTax,
-                          prix_avecTax: _data[index].prix_avecTax);
-                    }),
-              ),
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: _data.length*130,
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisExtent: 120,
+                              mainAxisSpacing: 10),
+                      itemCount: _data.length,
+                      itemBuilder: (context, index) {
+                        return ProductItem(
+                            produit: _data[index].produit,
+                            quantite: _data[index].quantite,
+                            prixUnitaire: _data[index].prixUnitaire,
+                            prix_horsTax: _data[index].prix_horsTax,
+                            prix_avecTax: _data[index].prix_avecTax);
+                      }),
+                ),
+              ],
+            ),
           ),
         ),
       ),
