@@ -27,47 +27,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 60,
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                size: 20,
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search,
-                size: 20,
-              ),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 20,
-              ),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
-          backgroundColor: const Color(0xff453c67),
-          onTap: _onItemTapped,
-          unselectedItemColor: Colors.grey.shade400,
-          selectedFontSize: 16,
-          unselectedFontSize: 14,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
+        bottomNavigationBar: SizedBox(
+          height: 60,
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  size: 20,
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.search,
+                  size: 20,
+                ),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  size: 20,
+                ),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.white,
+            backgroundColor: const Color(0xff453c67),
+            onTap: _onItemTapped,
+            unselectedItemColor: Colors.grey.shade400,
+            selectedFontSize: 16,
+            unselectedFontSize: 14,
+          ),
+        ),
+        drawer: const NavBar(),
       ),
-      drawer: const NavBar(),
     );
   }
 }

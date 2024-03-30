@@ -70,14 +70,14 @@ class ProductItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hors taxes : \n "+this.prix_horsTax,
+                Text("HT : \n "+this.prix_horsTax,
                     style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold)),
                 SizedBox(
                   height: 10,
                 ),
-                Text("Avec taxes: \n "+this.prix_avecTax,
+                Text("TTC: \n "+this.prix_avecTax,
                     style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold)),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/modules/achats/produits/data_model.dart';
+import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
+
+import '../components/details_page.dart';
 
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
@@ -9,6 +13,7 @@ class AjouterProduit extends StatefulWidget {
 
 class _details_pageState extends State<AjouterProduit> {
   DateTime? selectedDate;
+  DataModel? _selectedProduct;
 
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
@@ -54,12 +59,26 @@ class _details_pageState extends State<AjouterProduit> {
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
-              const TextField(
+              DropdownButton<DataModel>(
+                isExpanded: true,
+                hint: const Text('Choisir un produit'),
+                value: _selectedProduct,
+                items: FakeRepo.data.map((product) => DropdownMenuItem(
+                  value: product,
+                  child: Text(product.produit),
+                )).toList(),
+                onChanged: (DataModel? newProduct) {
+                  setState(() {
+                    _selectedProduct = newProduct;
+                  });
+                },
+              ),
+              /*const TextField(
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(left: 5),
                   hintText: 'Choisir un produit',
                 ),
-              ),
+              ),*/
               const SizedBox(
                 height: 30,
               ),
@@ -129,7 +148,8 @@ class _details_pageState extends State<AjouterProduit> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => details_page()));},
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
                       shape: RoundedRectangleBorder(
@@ -145,7 +165,8 @@ class _details_pageState extends State<AjouterProduit> {
                   ),
                   const SizedBox(width: 20.0), // Add spacing between buttons
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => details_page()));},
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
                       shape: RoundedRectangleBorder(
