@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/ajouter_produit.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
@@ -77,6 +78,7 @@ class _details_pageState extends State<details_page> {
           .colorScheme
           .surface,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
           color: Colors.black87,
@@ -84,7 +86,7 @@ class _details_pageState extends State<details_page> {
         title: Text(
           "Nouvelle commande",
           style: TextStyle(
-              color: Colors.black87, fontSize: responsiveFontSize(context, 17)),
+              color: Colors.black87, fontSize: 50.sp),
         ),
       ),
       body: SingleChildScrollView(
@@ -101,7 +103,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Demande de prix',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 15),
+                      fontSize: 50.sp,
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
@@ -110,7 +112,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Fournisseur',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 13),
+                      fontSize: 44.sp,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
@@ -119,7 +121,7 @@ class _details_pageState extends State<details_page> {
                     contentPadding: EdgeInsets.only(left: 5),
                     hintText: 'Nom, numéro de TVA, email ou référence',
                     hintStyle:
-                    TextStyle(fontSize: responsiveFontSize(context, 13),
+                    TextStyle(fontSize: 44.sp,
                         fontWeight: FontWeight.normal),
                   ),
                 ),
@@ -129,7 +131,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Référence fournisseur',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 13),
+                      fontSize: 44.sp,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
@@ -143,7 +145,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Échéance de commande',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 13),
+                      fontSize: 44.sp,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
@@ -156,7 +158,7 @@ class _details_pageState extends State<details_page> {
                         .substring(0, 10) ??
                         'Choisir date',
                     hintStyle: TextStyle(
-                        fontSize: responsiveFontSize(context, 13),
+                        fontSize: 44.sp,
                         fontWeight: FontWeight.normal),
                     contentPadding: const EdgeInsets.only(left: 5),
                   ),
@@ -167,7 +169,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Arrivée prévue',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 13),
+                      fontSize: 44.sp,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
@@ -180,7 +182,7 @@ class _details_pageState extends State<details_page> {
                     selectedDates["arrivee"]?.toString().substring(0, 10) ??
                         'Choisir date',
                     hintStyle: TextStyle(
-                        fontSize: responsiveFontSize(context, 13),
+                        fontSize: 44.sp,
                         fontWeight: FontWeight.normal),
                     contentPadding: const EdgeInsets.only(left: 5),
                   ),
@@ -200,7 +202,7 @@ class _details_pageState extends State<details_page> {
                     ),
                     Text('Demande de confirmation',
                         style: TextStyle(
-                            fontSize: responsiveFontSize(context, 13),
+                            fontSize: 44.sp,
                             fontWeight: FontWeight.w300,
                             color: Colors.grey[700])),
                   ],
@@ -211,7 +213,7 @@ class _details_pageState extends State<details_page> {
                 Text(
                   'Produits',
                   style: TextStyle(
-                      fontSize: responsiveFontSize(context, 15),
+                      fontSize: 50.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
@@ -239,7 +241,7 @@ class _details_pageState extends State<details_page> {
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontSize: responsiveFontSize(context, 13),
+                          fontSize: 44.sp,
                         ),
                       ),
                     ),
@@ -289,7 +291,10 @@ class _details_pageState extends State<details_page> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.shade400),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50.r),
+              topRight: Radius.circular(50.r),
+            ),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -300,16 +305,12 @@ class _details_pageState extends State<details_page> {
         child: BottomAppBar(
           color: Colors.transparent,
           elevation: 8,
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const details_page()));
-                },
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   padding: responsivePadding(context, 0.05, 0.015),
                   shape: RoundedRectangleBorder(
@@ -327,12 +328,7 @@ class _details_pageState extends State<details_page> {
                   style: TextStyle(fontSize: responsiveFontSize(context, 13)),),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const details_page()));
-                },
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   padding: responsivePadding(context, 0.05, 0.015),
                   // Add padding
@@ -352,12 +348,7 @@ class _details_pageState extends State<details_page> {
                     fontSize: responsiveFontSize(context, 13))),
               ),
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const details_page()));
-                },
+                onPressed: () {},
                 style: TextButton.styleFrom(
                   padding: responsivePadding(context, 0.05, 0.015),
                   shape: RoundedRectangleBorder(

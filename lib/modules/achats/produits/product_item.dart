@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class ProductItem extends StatelessWidget {
@@ -22,42 +23,43 @@ class ProductItem extends StatelessWidget {
             BoxShadow(
                 color: Colors.grey.shade300,
                 blurRadius: 5,
-                offset: Offset(0, 3))
+                offset: const Offset(0, 3))
           ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: 10),
+            padding: EdgeInsets.symmetric(
+                vertical: 8.h, horizontal: 30.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              MainAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: [
                     Text(
-                      this.produit,
+                      produit,
                       style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 50.sp,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "Quantite : "+ this.quantite,
+                      "Quantite : $quantite",
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 48.sp,
                           fontWeight: FontWeight.w300,
                           color: Colors.grey[700]),
                     ),
                   ],
                 ),
+                SizedBox(height: 30.h,),
                 Text(
-                  "Prix unitaire : "+ this.prixUnitaire,
+                  "Prix unitaire : $prixUnitaire",
                   style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 48.sp,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
@@ -65,27 +67,27 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: 40),
+            padding: EdgeInsets.symmetric(
+                vertical: 20.h, horizontal: 60.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("HT : \n "+this.prix_horsTax,
+                Text("HT : \n $prix_horsTax",
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 45.sp,
                         fontWeight: FontWeight.bold)),
                 SizedBox(
-                  height: 10,
+                  height: 15.h,
                 ),
-                Text("TTC: \n "+this.prix_avecTax,
+                Text("TTC: \n $prix_avecTax",
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 45.sp,
                         fontWeight: FontWeight.bold)),
               ],
             ),
           )
         ],
       ),
-    );;
+    );
   }
 }
