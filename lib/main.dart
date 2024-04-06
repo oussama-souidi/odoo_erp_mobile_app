@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) => const SafeArea(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: details_page()
+          home: HomePage()
         ),
       ),
       designSize: const Size(1080, 2220),

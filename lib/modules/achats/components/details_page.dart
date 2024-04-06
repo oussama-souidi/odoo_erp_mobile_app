@@ -33,14 +33,8 @@ class _details_pageState extends State<details_page> {
 
   // for a responsive font size
   double responsiveFontSize(BuildContext context, double referenceFontSize) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     double averageDimension = (screenWidth + screenHeight) / 2;
 
@@ -50,16 +44,10 @@ class _details_pageState extends State<details_page> {
   }
 
   // for a responsive padding
-  EdgeInsets responsivePadding(BuildContext context, double horizontalFactor,
-      double verticalFactor) {
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+  EdgeInsets responsivePadding(
+      BuildContext context, double horizontalFactor, double verticalFactor) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     double horizontalPadding = screenWidth * horizontalFactor;
     double verticalPadding = screenHeight * verticalFactor;
@@ -73,41 +61,50 @@ class _details_pageState extends State<details_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .surface,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(
-          color: Colors.black87,
-        ),
-        title: Text(
-          "Nouvelle commande",
-          style: TextStyle(
-              color: Colors.black87, fontSize: 50.sp),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(145.h),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ],
+          ),
+          child: AppBar(
+            scrolledUnderElevation: 0,
+            backgroundColor: Colors.white,
+            iconTheme: const IconThemeData(
+              color: Colors.black87,
+            ),
+            title: Text(
+              "Nouvelle commande",
+              style: TextStyle(color: Colors.black87, fontSize: 50.sp),
+            ),
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.grey.shade100,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 65.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 50.h,
                 ),
                 Text(
                   'Demande de prix',
-                  style: TextStyle(
-                      fontSize: 50.sp,
-                      fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 50.h,
                 ),
                 Text(
                   'Fournisseur',
@@ -118,15 +115,14 @@ class _details_pageState extends State<details_page> {
                 ),
                 TextField(
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 5),
+                    contentPadding: EdgeInsets.only(left: 15.w),
                     hintText: 'Nom, numéro de TVA, email ou référence',
-                    hintStyle:
-                    TextStyle(fontSize: 44.sp,
-                        fontWeight: FontWeight.normal),
+                    hintStyle: TextStyle(
+                        fontSize: 44.sp, fontWeight: FontWeight.normal),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 70.h,
                 ),
                 Text(
                   'Référence fournisseur',
@@ -135,12 +131,12 @@ class _details_pageState extends State<details_page> {
                       fontWeight: FontWeight.w300,
                       color: Colors.grey[700]),
                 ),
-                const TextField(
-                  decoration:
-                  InputDecoration(contentPadding: EdgeInsets.only(left: 5)),
+                TextField(
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 15.w)),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 70.h,
                 ),
                 Text(
                   'Échéance de commande',
@@ -154,17 +150,16 @@ class _details_pageState extends State<details_page> {
                   onTap: () => _selectDate(context, "echeance"),
                   decoration: InputDecoration(
                     hintText: selectedDates["echeance"]
-                        ?.toString()
-                        .substring(0, 10) ??
+                            ?.toString()
+                            .substring(0, 10) ??
                         'Choisir date',
                     hintStyle: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.normal),
-                    contentPadding: const EdgeInsets.only(left: 5),
+                        fontSize: 44.sp, fontWeight: FontWeight.normal),
+                    contentPadding: EdgeInsets.only(left: 15.w),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 70.h,
                 ),
                 Text(
                   'Arrivée prévue',
@@ -179,16 +174,15 @@ class _details_pageState extends State<details_page> {
 
                   decoration: InputDecoration(
                     hintText:
-                    selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                        'Choisir date',
+                        selectedDates["arrivee"]?.toString().substring(0, 10) ??
+                            'Choisir date',
                     hintStyle: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.normal),
-                    contentPadding: const EdgeInsets.only(left: 5),
+                        fontSize: 44.sp, fontWeight: FontWeight.normal),
+                    contentPadding: EdgeInsets.only(left: 15.w),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 70.h,
                 ),
                 Row(
                   children: [
@@ -207,18 +201,18 @@ class _details_pageState extends State<details_page> {
                             color: Colors.grey[700])),
                   ],
                 ),
-                const SizedBox(
-                  height: 40,
+                SizedBox(
+                  height: 70.h,
                 ),
                 Text(
                   'Produits',
                   style: TextStyle(
-                      fontSize: 50.sp,
+                      fontSize: 55.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 50.h,
                 ),
                 TextButton(
                   onPressed: () {
@@ -229,7 +223,7 @@ class _details_pageState extends State<details_page> {
                   },
                   onHover: (_) {},
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(30.sp),
                     //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
@@ -247,42 +241,23 @@ class _details_pageState extends State<details_page> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 50.h,
                 ),
                 Column(
                   children: [
-                      for(var data in _data)
-                        Padding(
-                          padding: responsivePadding(context, 0,0.008),
-                          child: ProductItem(
-                              produit: data.produit,
-                              quantite: data.quantite,
-                              prixUnitaire: data.prixUnitaire,
-                              prix_horsTax: data.prix_horsTax,
-                              prix_avecTax: data.prix_avecTax),
-                        )
-                    ],
-
+                    for (var data in _data)
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15.h),
+                        child: ProductItem(
+                            produit: data.produit,
+                            quantite: data.quantite,
+                            prixUnitaire: data.prixUnitaire,
+                            prix_horsTax: data.prix_horsTax,
+                            prix_avecTax: data.prix_avecTax),
+                      )
+                  ],
                 ),
-                /*SizedBox(
-                  height: _data.length * 130,
-                  child: GridView.builder(
-                      gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 1,
-                          mainAxisExtent: 120,
-                          mainAxisSpacing: 10),
-                      itemCount: _data.length,
-                      itemBuilder: (context, index) {
-                        return ProductItem(
-                            produit: _data[index].produit,
-                            quantite: _data[index].quantite,
-                            prixUnitaire: _data[index].prixUnitaire,
-                            prix_horsTax: _data[index].prix_horsTax,
-                            prix_avecTax: _data[index].prix_avecTax);
-                      }),
-                ),*/
               ],
             ),
           ),
@@ -305,17 +280,17 @@ class _details_pageState extends State<details_page> {
         child: BottomAppBar(
           color: Colors.transparent,
           elevation: 8,
-
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
-                  padding: responsivePadding(context, 0.05, 0.015),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
+                        BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: const Color(0xff8c7bc9),
                   foregroundColor: Colors.white,
@@ -324,17 +299,20 @@ class _details_pageState extends State<details_page> {
                   // Shadow offset
                   elevation: 2.0, // Button elevation for shadow
                 ),
-                child: Text("Confirmer",
-                  style: TextStyle(fontSize: responsiveFontSize(context, 13)),),
+                child: Text(
+                  "Confirmer",
+                  style: TextStyle(fontSize: 45.sp),
+                ),
               ),
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
-                  padding: responsivePadding(context, 0.05, 0.015),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   // Add padding
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
+                        BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: const Color(0xff8c7bc9),
                   foregroundColor: Colors.white,
@@ -344,24 +322,23 @@ class _details_pageState extends State<details_page> {
                   elevation: 2.0,
                   // Button elevation for shadow
                 ),
-                child: Text("Imprimer", style: TextStyle(
-                    fontSize: responsiveFontSize(context, 13))),
+                child: Text("Imprimer", style: TextStyle(fontSize: 45.sp)),
               ),
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
-                  padding: responsivePadding(context, 0.05, 0.015),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
+                        BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: Colors.grey.shade300,
                   foregroundColor: Colors.black,
                   shadowColor: Colors.grey.withOpacity(0.5),
                   elevation: 2.0, // Button elevation for shadow
                 ),
-                child: Text("Annuler", style: TextStyle(
-                    fontSize: responsiveFontSize(context, 13))),
+                child: Text("Annuler", style: TextStyle(fontSize: 45.sp)),
               ),
             ],
           ),

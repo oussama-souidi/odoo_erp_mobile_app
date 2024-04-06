@@ -69,21 +69,26 @@ class ProductItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: 20.h, horizontal: 60.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("HT : \n $prix_horsTax",
-                    style: TextStyle(
-                        fontSize: 45.sp,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 15.h,
-                ),
-                Text("TTC: \n $prix_avecTax",
-                    style: TextStyle(
-                        fontSize: 45.sp,
-                        fontWeight: FontWeight.bold)),
-              ],
+            child: SizedBox(
+              width: 200.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment:
+                MainAxisAlignment.start,
+                children: [
+                  Text("HT : \n $prix_horsTax",
+                      style: TextStyle(
+                          fontSize: 45.sp,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Text("TTC: \n $prix_avecTax",
+                      style: TextStyle(
+                          fontSize: 45.sp,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           )
         ],
