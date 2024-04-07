@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/modules/achats/produits/ajouter_produit.dart';
+import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
 
@@ -30,9 +30,8 @@ class _details_pageState extends State<details_page> {
       });
     }
   }
-
   // for a responsive font size
-  double responsiveFontSize(BuildContext context, double referenceFontSize) {
+  /*double responsiveFontSize(BuildContext context, double referenceFontSize) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -56,7 +55,7 @@ class _details_pageState extends State<details_page> {
       horizontal: horizontalPadding,
       vertical: verticalPadding,
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +81,7 @@ class _details_pageState extends State<details_page> {
             ),
             title: Text(
               "Nouvelle commande",
-              style: TextStyle(color: Colors.black87, fontSize: 50.sp),
+              style: TextStyle(color: Colors.black87, fontSize: 55.sp),
             ),
           ),
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/data_model.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 
-import '../components/details_page.dart';
+import '../../../components/appBar.dart';
+import '../components/AddCommand.dart';
 
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
@@ -33,29 +35,23 @@ class _details_pageState extends State<AjouterProduit> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        backgroundColor: const Color(0xff8c7bc9),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
-        title: const Text(
-          "Créer Lignes de commande",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(145.h),
+        child: const appBar(title: "Créer Ligne de commande",),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 70.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 70.h,
               ),
-              const Text(
+              Text(
                 'Produit',
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
@@ -79,55 +75,55 @@ class _details_pageState extends State<AjouterProduit> {
                   hintText: 'Choisir un produit',
                 ),
               ),*/
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 70.h,
               ),
-              const Text(
+              Text(
                 'Quantité',
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 5), hintText: "1.00"),
+                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "1.00"),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 70.h,
               ),
-              const Text(
+              Text(
                 'Prix unitaire',
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 5), hintText: "0.00"),
+                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "0.00"),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 70.h,
               ),
-              const Text(
+              Text(
                 'Taxes',
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 5), hintText: "0%"),
+                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "0%"),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 70.h,
               ),
-              const Text(
+              Text(
                 'Arrivée prévue',
                 style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
@@ -138,20 +134,19 @@ class _details_pageState extends State<AjouterProduit> {
                 decoration: InputDecoration(
                   hintText: selectedDate?.toString().substring(0, 10) ??
                       'Choisir date',
-                  contentPadding: const EdgeInsets.only(left: 5),
+                  contentPadding: EdgeInsets.only(left: 15.w),
                 ),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: 90.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => details_page()));},
+                    onPressed: () {},
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
+                      padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h), // Add padding
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0), // Circular border
                       ),
@@ -161,14 +156,14 @@ class _details_pageState extends State<AjouterProduit> {
                       // Shadow offset
                       elevation: 2.0, // Button elevation for shadow
                     ),
-                    child: Text("Enregistrer & Fermer"),
+                    child: Text("Enregistrer & Fermer", style: TextStyle(fontSize: 40.sp),),
                   ),
-                  const SizedBox(width: 20.0), // Add spacing between buttons
+                  SizedBox(width: 60.w), // Add spacing between buttons
                   TextButton(
                     onPressed: () {Navigator.push(context,
                         MaterialPageRoute(builder: (context) => details_page()));},
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0), // Add padding
+                      padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h), // Add padding
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0), // Circular border
                       ),
@@ -177,7 +172,7 @@ class _details_pageState extends State<AjouterProduit> {
                       shadowColor: Colors.grey.withOpacity(0.5),
                       elevation: 2.0, // Button elevation for shadow
                     ),
-                    child: Text("Annuler"),
+                    child: Text("Annuler", style: TextStyle(fontSize: 40.sp),),
                   ),
                 ],
               ),

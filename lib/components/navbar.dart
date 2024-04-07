@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/modules/achats/achats.dart';
-import 'package:mobile_app/modules/achats/components/details_page.dart';
+import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/login_page.dart';
 
