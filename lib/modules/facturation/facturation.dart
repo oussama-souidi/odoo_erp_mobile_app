@@ -47,7 +47,7 @@ class Facturation extends StatelessWidget {
               ),
               Text(
                 'Factures clients',
-                style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 20.h,

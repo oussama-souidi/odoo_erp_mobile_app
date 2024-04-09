@@ -7,14 +7,14 @@ class FakeRepo{
         montant: "10000",
         id: "#P00010",
         date: "19/02/2024",
-        etat: "Bon de commande fournisseur"
+        etat: "Bon de commande"
     ),
     DataModel(
         fournisseur: "Meubla",
         montant: "5400",
         id: "#P00011",
         date: "18/02/2024",
-        etat: "Bon de commande fournisseur"
+        etat: "Bon de commande"
     ),
     DataModel(
         fournisseur: "Azure",

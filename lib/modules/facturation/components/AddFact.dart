@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
+import 'package:mobile_app/modules/facturation/clients/client_model.dart';
+import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 
 import '../../achats/produits/AddProduct.dart';
@@ -13,6 +14,7 @@ class AddFact extends StatefulWidget {
 }
 
 class _AddFactState extends State<AddFact> {
+  ClientModel? _selectedClient;
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
@@ -61,7 +63,7 @@ class _AddFactState extends State<AddFact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.grey.shade100,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
         child: Container(
@@ -88,185 +90,143 @@ class _AddFactState extends State<AddFact> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          color: Colors.grey.shade100,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 65.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 50.h,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 65.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  Text(
+                    'Facture client',
+                    style:
+                    TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  Text(
+                    'Client',
+                    style: TextStyle(
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[800]),
+                  ),
+                  DropdownButton<ClientModel>(
+                    isExpanded: true,
+                    value: _selectedClient,
+                    items: FakeRepo.data.map((client) => DropdownMenuItem(
+                      value: client,
+                      child: Text(client.nomClient),
+                    )).toList(),
+                    onChanged: (ClientModel? newClient) {
+                      setState(() {
+                        _selectedClient = newClient;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 70.h,
+                  ),
+                  Text(
+                    'Date de facturation',
+                    style: TextStyle(
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[700]),
+                  ),
+                  TextField(
+                    readOnly: true, // Disable text editing
+                    onTap: () => _selectDate(context, "dateFac"),
+                    decoration: InputDecoration(
+                      hintText: selectedDates["dateFac"]
+                          ?.toString()
+                          .substring(0, 10),
+                      hintStyle: TextStyle(
+                          fontSize: 44.sp, fontWeight: FontWeight.normal),
+                      contentPadding: EdgeInsets.only(left: 15.w),
                     ),
-                    Text(
-                      'Facture client',
-                      style:
-                      TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 50.h,
-                    ),
-                    Text(
-                      'Fournisseur',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                        hintText: 'Nom, numéro de TVA, email ou référence',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
+                  ),
+                  SizedBox(
+                    height: 70.h,
+                  ),
+                  Text(
+                    'Référence fournisseur',
+                    style: TextStyle(
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[700]),
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w)),
+                  ),
+                  SizedBox(
+                    height: 70.h,
+                  ),
+                  Text(
+                    'Lignes de facture',
+                    style: TextStyle(
+                        fontSize: 55.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  const Divider(),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AjouterProduit()));
+                    */},
+                    onHover: (_) {},
+                    child: Container(
+                      padding: EdgeInsets.all(30.sp),
+                      //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Référence fournisseur',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15.w)),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Échéance de commande',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      readOnly: true, // Disable text editing
-                      onTap: () => _selectDate(context, "echeance"),
-                      decoration: InputDecoration(
-                        hintText: selectedDates["echeance"]
-                            ?.toString()
-                            .substring(0, 10) ??
-                            'Choisir date',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Arrivée prévue',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      readOnly: true, // Disable text editing
-                      onTap: () => _selectDate(context, "arrivee"),
-
-                      decoration: InputDecoration(
-                        hintText:
-                        selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                            'Choisir date',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isChecked,
-                          onChanged: (bool? newValue) {
-                            setState(() {
-                              isChecked = newValue!;
-                            });
-                          },
-                        ),
-                        Text('Demande de confirmation',
-                            style: TextStyle(
-                                fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey[700])),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Produits',
-                      style: TextStyle(
-                          fontSize: 55.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    const Divider(),
-                    SizedBox(
-                      height: 50.h,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AjouterProduit()));
-                      },
-                      onHover: (_) {},
-                      child: Container(
-                        padding: EdgeInsets.all(30.sp),
-                        //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Ajouter produit",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 44.sp,
-                            ),
+                      child: Center(
+                        child: Text(
+                          "Ajouter",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 44.sp,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 50.h,
-                    ),
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
 
-                  ],
-                ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 50.h),
-                child: Column(
-                  children: [
-                    for (var data in _data)
-                      ProductItem(
-                          produit: data.produit,
-                          quantite: data.quantite,
-                          prixUnitaire: data.prixUnitaire,
-                          prixHorsTax: data.prix_horsTax,
-                          prixAvecTax: data.prix_avecTax)
-                  ],
-                ),
+            ),
+            /*Padding(
+              padding: EdgeInsets.only(bottom: 50.h),
+              child: Column(
+                children: [
+                  for (var data in _data)
+                    ProductItem(
+                        produit: data.produit,
+                        quantite: data.quantite,
+                        prixUnitaire: data.prixUnitaire,
+                        prixHorsTax: data.prix_horsTax,
+                        prixAvecTax: data.prix_avecTax)
+                ],
               ),
-            ],
-          ),
+            ),*/
+          ],
         ),
       ),
       bottomNavigationBar: Container(

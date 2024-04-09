@@ -47,7 +47,7 @@ class Achats extends StatelessWidget {
               ),
               Text(
                 'Demandes de prix',
-                style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 20.h,

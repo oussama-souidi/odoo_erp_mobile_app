@@ -21,7 +21,7 @@ class ListItem extends StatelessWidget {
     TextStyle textStyle;
 
     switch (text) {
-      case "Bon de commande fournisseur":
+      case "Bon de commande":
         boxColor = const Color(0xffbda7d1); // Light purple
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
