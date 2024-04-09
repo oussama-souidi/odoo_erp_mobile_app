@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
-import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
-import 'package:mobile_app/modules/achats/produits/product_item.dart';
+import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
+import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 
-class details_page extends StatefulWidget {
-  const details_page({super.key});
+import '../../achats/produits/AddProduct.dart';
+
+class AddFact extends StatefulWidget {
+  const AddFact({super.key});
 
   @override
-  State<details_page> createState() => _details_pageState();
+  State<AddFact> createState() => _AddFactState();
 }
 
-class _details_pageState extends State<details_page> {
+class _AddFactState extends State<AddFact> {
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
@@ -80,7 +81,7 @@ class _details_pageState extends State<details_page> {
               color: Colors.black87,
             ),
             title: Text(
-              "Nouvelle commande",
+              "Nouvelle facture",
               style: TextStyle(color: Colors.black87, fontSize: 55.sp),
             ),
           ),
@@ -100,9 +101,9 @@ class _details_pageState extends State<details_page> {
                       height: 50.h,
                     ),
                     Text(
-                      'Demande de prix',
+                      'Facture client',
                       style:
-                          TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 50.h,
@@ -151,8 +152,8 @@ class _details_pageState extends State<details_page> {
                       onTap: () => _selectDate(context, "echeance"),
                       decoration: InputDecoration(
                         hintText: selectedDates["echeance"]
-                                ?.toString()
-                                .substring(0, 10) ??
+                            ?.toString()
+                            .substring(0, 10) ??
                             'Choisir date',
                         hintStyle: TextStyle(
                             fontSize: 44.sp, fontWeight: FontWeight.normal),
@@ -175,8 +176,8 @@ class _details_pageState extends State<details_page> {
 
                       decoration: InputDecoration(
                         hintText:
-                            selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                                'Choisir date',
+                        selectedDates["arrivee"]?.toString().substring(0, 10) ??
+                            'Choisir date',
                         hintStyle: TextStyle(
                             fontSize: 44.sp, fontWeight: FontWeight.normal),
                         contentPadding: EdgeInsets.only(left: 15.w),
@@ -292,10 +293,10 @@ class _details_pageState extends State<details_page> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(10.0), // Circular border
+                    BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: const Color(0xff8c7bc9),
                   foregroundColor: Colors.white,
@@ -313,11 +314,11 @@ class _details_pageState extends State<details_page> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   // Add padding
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(10.0), // Circular border
+                    BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: const Color(0xff8c7bc9),
                   foregroundColor: Colors.white,
@@ -333,10 +334,10 @@ class _details_pageState extends State<details_page> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(10.0), // Circular border
+                    BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: Colors.grey.shade300,
                   foregroundColor: Colors.black,

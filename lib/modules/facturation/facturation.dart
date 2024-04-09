@@ -2,30 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/components/appBar.dart';
 import 'package:mobile_app/components/navbar.dart';
-import 'package:mobile_app/modules/achats/components/AddCommand.dart';
-import 'package:mobile_app/modules/achats/components/list_item.dart';
+import 'package:mobile_app/modules/facturation/components/AddFact.dart';
+import 'package:mobile_app/modules/facturation/components/list_item.dart';
 
 import 'components/fake_repository.dart';
 
-class Achats extends StatelessWidget {
+class Facturation extends StatelessWidget {
   final _data = FakeRepo.data;
 
-  Achats({super.key});
+  Facturation({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(145.h),
-        child: const appBar(title: "Achats",)
-      ),
+          preferredSize: Size.fromHeight(145.h),
+          child: const appBar(
+            title: "Facturation",
+          )),
       drawer: const NavBar(),
       backgroundColor: Colors.grey.shade100,
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const details_page()));
+            Navigator.push(context,MaterialPageRoute(builder: (context) => const AddFact()));
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(
@@ -46,7 +46,7 @@ class Achats extends StatelessWidget {
                 height: 50.h,
               ),
               Text(
-                'Demandes de prix',
+                'Factures clients',
                 style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -54,10 +54,12 @@ class Achats extends StatelessWidget {
               ),
               for (var data in _data)
                 ListItem(
-                  fournisseur: data.fournisseur,
+                  client: data.client,
                   montant: data.montant,
-                  id: data.id,
-                  date: data.date,
+                  refFac: data.refFac,
+                  dateFac: data.dateFac,
+                  dateEch: data.dateEch,
+                  dateLiv: data.dateLiv,
                   etat: data.etat,
                 )
               /*GridView.builder(

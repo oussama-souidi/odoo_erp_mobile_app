@@ -26,7 +26,7 @@ class appBar extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: TextStyle(color: Colors.black87, fontSize: 55.sp),
+          style: TextStyle(color: Colors.black87, fontSize: 55.sp,fontWeight: FontWeight.bold),
         ),
       ),
     );

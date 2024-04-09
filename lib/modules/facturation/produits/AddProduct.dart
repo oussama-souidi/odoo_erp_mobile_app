@@ -4,7 +4,6 @@ import 'package:mobile_app/modules/achats/produits/data_model.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 
 import '../../../components/appBar.dart';
-import '../components/AddCommand.dart';
 
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
@@ -160,8 +159,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
                   ),
                   SizedBox(width: 60.w), // Add spacing between buttons
                   TextButton(
-                    onPressed: () {Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => details_page()));},
+                    onPressed: () {},
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h), // Add padding
                       shape: RoundedRectangleBorder(

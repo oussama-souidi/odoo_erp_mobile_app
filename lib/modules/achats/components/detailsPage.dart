@@ -145,8 +145,8 @@ class detailsPage extends StatelessWidget {
                               produit: data.produit,
                               quantite: data.quantite,
                               prixUnitaire: data.prixUnitaire,
-                              prix_horsTax: data.prix_horsTax,
-                              prix_avecTax: data.prix_avecTax),
+                              prixHorsTax: data.prix_horsTax,
+                              prixAvecTax: data.prix_avecTax),
                         )
                     ],
                   ),

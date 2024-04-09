@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/components/detailsPage.dart';
 
-
 class ListItem extends StatelessWidget {
-  final String fournisseur;
+  final String client;
   final String montant;
-  final String id;
-  final String date;
+  final String refFac;
+  final String dateFac;
+  final String dateEch;
+  final String dateLiv;
   final String etat;
 
   const ListItem(
-      {super.key, required this.fournisseur, required this.montant, required this.id, required this.date, required this.etat});
+      {super.key,
+      required this.client,
+      required this.montant,
+      required this.refFac,
+      required this.dateFac,
+      required this.dateEch,
+      required this.dateLiv,
+      required this.etat});
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +29,18 @@ class ListItem extends StatelessWidget {
     TextStyle textStyle;
 
     switch (text) {
-      case "Bon de commande fournisseur":
-        boxColor = const Color(0xffbda7d1); // Light purple
+      case "Comptabilisé":
+        boxColor = const Color(0xff4CAF50); // Light purple
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "envoyé":
-        boxColor = const Color(0xffbda7d1);
-        borderColor = Colors.transparent;
-        textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
-        break;
-      case "demande de prix":
+      case "Brouillon":
         boxColor = Colors.white;
         borderColor = const Color(0xffbda7d1);
         textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
         break;
       default:
-      // Handle unexpected text by setting default styles (optional)
+        // Handle unexpected text by setting default styles (optional)
         boxColor = Colors.grey.shade200;
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
@@ -45,17 +48,15 @@ class ListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) =>
-                detailsPage(fournisseur: fournisseur,
+        /*Navigator.push(context, MaterialPageRoute(builder: (context) => detailsPage(
+                    fournisseur: fournisseur,
                     montant: montant,
                     id: id,
                     date: date,
-                    etat: etat)));
+                    etat: etat)));*/
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: 20.h),
+        padding: EdgeInsets.symmetric(vertical: 10.h),
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300, width: 1),
@@ -68,10 +69,9 @@ class ListItem extends StatelessWidget {
                     offset: const Offset(0, 3))
               ]),
           child: SizedBox(
-            height: 220.h,
+            height: 200.h,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 30.h, horizontal: 30.w),
+              padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 40.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,39 +79,27 @@ class ListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(fournisseur
-                        ,
-                        style:
-                        TextStyle(fontSize: 45.sp, fontWeight: FontWeight.bold),
+                      Text(
+                        client,
+                        style: TextStyle(
+                            fontSize: 45.sp, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '\$$montant',
-                        style:
-                        TextStyle(fontSize: 45.sp, fontWeight: FontWeight.bold),
+                        dateFac,
+                        style: TextStyle(
+                            fontSize: 45.sp, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            id,
-                            style: TextStyle(
-                                fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey[700]),
-                          ),
-                          SizedBox(width: 15.w),
-                          Text(
-                            date,
-                            style: TextStyle(
-                                fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey[700]),
-                          ),
-                        ],
+                      Text(
+                        "\$ $montant",
+                        style: TextStyle(
+                            fontSize: 44.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[700]),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -119,12 +107,10 @@ class ListItem extends StatelessWidget {
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(10.r)),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w,
-                              vertical: 3.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 3.h),
                           child: FittedBox(
-                            child: Text(text,
-                                style:
-                                textStyle),
+                            child: Text(text, style: textStyle),
                           ),
                         ),
                       )
