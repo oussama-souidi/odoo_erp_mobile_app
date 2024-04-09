@@ -228,14 +228,14 @@ class _details_pageState extends State<details_page> {
                         padding: EdgeInsets.all(30.sp),
                         //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
+                          color: const Color(0xffa08fde),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(
                           child: Text(
                             "Ajouter produit",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 44.sp,
                             ),

@@ -31,128 +31,132 @@ class detailsPage extends StatelessWidget {
           child: const appBar(title: "Détails de commande",),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            color: Colors.grey.shade100,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 65.w, vertical: 20.h),
-              child: Column(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 65.w, vertical: 20.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    Text(
+                      'Fournisseur',
+                      style: TextStyle(
+                          fontSize: 44.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[700]),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue:fournisseur,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    Text(
+                      'Montant',
+                      style: TextStyle(
+                          fontSize: 44.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[700]),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue:montant,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    Text(
+                      'Code de commande',
+                      style: TextStyle(
+                          fontSize: 44.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[700]),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue:id,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    Text(
+                      'Date de commande',
+                      style: TextStyle(
+                          fontSize: 44.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[700]),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue:date,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    Text(
+                      'Etat de commande',
+                      style: TextStyle(
+                          fontSize: 44.sp,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey[700]),
+                    ),
+                    TextFormField(
+                      readOnly: true,
+                      initialValue:etat,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 90.h,
+                    ),
+
+                  ],
+                ),
+              ),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  Text(
-                    'Fournisseur',
-                    style: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey[700]),
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue:fournisseur,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 65.w),
+                    child: Text(
+                      'Produits',
+                      style: TextStyle(
+                          fontSize: 55.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                   ),
+                  const Divider(),
                   SizedBox(
-                    height: 70.h,
+                    height: 20.h,
                   ),
-                  Text(
-                    'Montant',
-                    style: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey[700]),
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue:montant,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 70.h,
-                  ),
-                  Text(
-                    'Code de commande',
-                    style: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey[700]),
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue:id,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 70.h,
-                  ),
-                  Text(
-                    'Date de commande',
-                    style: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey[700]),
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue:date,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 70.h,
-                  ),
-                  Text(
-                    'Etat de commande',
-                    style: TextStyle(
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.grey[700]),
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue:etat,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 80.h,
-                  ),
-                  Text(
-                    'Produits',
-                    style: TextStyle(
-                        fontSize: 55.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  Column(
-                    children: [
-                      for (var data in _data)
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15.h),
-                          child: ProductItem(
-                              produit: data.produit,
-                              quantite: data.quantite,
-                              prixUnitaire: data.prixUnitaire,
-                              prixHorsTax: data.prix_horsTax,
-                              prixAvecTax: data.prix_avecTax),
-                        )
-                    ],
-                  ),
+                  for (var data in _data)
+                    ProductItem(
+                        produit: data.produit,
+                        quantite: data.quantite,
+                        prixUnitaire: data.prixUnitaire,
+                        prixHorsTax: data.prix_horsTax,
+                        prixAvecTax: data.prix_avecTax)
                 ],
               ),
-            ),
+            ],
           ),
         ));
   }

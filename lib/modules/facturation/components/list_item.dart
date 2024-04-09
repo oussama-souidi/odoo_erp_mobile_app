@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/components/detailsPage.dart';
+import 'package:mobile_app/modules/facturation/components/detailsFac.dart';
 
 class ListItem extends StatelessWidget {
   final String client;
@@ -48,12 +49,18 @@ class ListItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        /*Navigator.push(context, MaterialPageRoute(builder: (context) => detailsPage(
-                    fournisseur: fournisseur,
-                    montant: montant,
-                    id: id,
-                    date: date,
-                    etat: etat)));*/
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DetailsFac(
+                      client: client,
+                      montant: montant,
+                      refFac: refFac,
+                      dateFac: dateFac,
+                      dateEch: dateEch,
+                      dateLiv: dateLiv,
+                      etat: etat,
+                    )));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.h),

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
+import 'package:mobile_app/modules/facturation/produits/AddProduct.dart';
+import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 
-import '../../achats/produits/AddProduct.dart';
 
 class AddFact extends StatefulWidget {
   const AddFact({super.key});
@@ -18,7 +19,7 @@ class _AddFactState extends State<AddFact> {
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
-  final _data = FakeRepo.data;
+  final produits = FakeRepo.data;
 
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
@@ -33,32 +34,6 @@ class _AddFactState extends State<AddFact> {
       });
     }
   }
-  // for a responsive font size
-  /*double responsiveFontSize(BuildContext context, double referenceFontSize) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double averageDimension = (screenWidth + screenHeight) / 2;
-
-    double responsiveSize = referenceFontSize * (averageDimension / 480);
-
-    return responsiveSize;
-  }
-
-  // for a responsive padding
-  EdgeInsets responsivePadding(
-      BuildContext context, double horizontalFactor, double verticalFactor) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double horizontalPadding = screenWidth * horizontalFactor;
-    double verticalPadding = screenHeight * verticalFactor;
-
-    return EdgeInsets.symmetric(
-      horizontal: horizontalPadding,
-      vertical: verticalPadding,
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +93,7 @@ class _AddFactState extends State<AddFact> {
                   DropdownButton<ClientModel>(
                     isExpanded: true,
                     value: _selectedClient,
-                    items: FakeRepo.data.map((client) => DropdownMenuItem(
+                    items: ClientRepo.data.map((client) => DropdownMenuItem(
                       value: client,
                       child: Text(client.nomClient),
                     )).toList(),
@@ -154,7 +129,7 @@ class _AddFactState extends State<AddFact> {
                     height: 70.h,
                   ),
                   Text(
-                    'Référence fournisseur',
+                    'Référence de paiement',
                     style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w400,
@@ -168,36 +143,69 @@ class _AddFactState extends State<AddFact> {
                     height: 70.h,
                   ),
                   Text(
-                    'Lignes de facture',
+                    'Date d\'échéance',
                     style: TextStyle(
-                        fontSize: 55.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey[700]),
+                  ),
+                  TextField(
+                    readOnly: true, // Disable text editing
+                    onTap: () => _selectDate(context, "dateEch"),
+                    decoration: InputDecoration(
+                      hintText: selectedDates["dateEch"]
+                          ?.toString()
+                          .substring(0, 10),
+                      hintStyle: TextStyle(
+                          fontSize: 44.sp, fontWeight: FontWeight.normal),
+                      contentPadding: EdgeInsets.only(left: 15.w),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 70.h,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 50.h, top:50.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 65.w, bottom: 20.h),
+                    child: Text(
+                      'Lignes de facture',
+                      style: TextStyle(
+                          fontSize: 55.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
                   ),
                   const Divider(),
                   SizedBox(
-                    height: 50.h,
+                    height: 20.h,
                   ),
                   TextButton(
                     onPressed: () {
-                      /*Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const AjouterProduit()));
-                    */},
+                    },
                     onHover: (_) {},
                     child: Container(
                       padding: EdgeInsets.all(30.sp),
                       //margin: const EdgeInsets.symmetric(horizontal: 25, vertical : 50),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+                        color: const Color(0xffa08fde),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
                         child: Text(
                           "Ajouter",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 44.sp,
                           ),
@@ -208,24 +216,16 @@ class _AddFactState extends State<AddFact> {
                   SizedBox(
                     height: 50.h,
                   ),
-
-                ],
-              ),
-            ),
-            /*Padding(
-              padding: EdgeInsets.only(bottom: 50.h),
-              child: Column(
-                children: [
-                  for (var data in _data)
+                  /*for (var data in produits)
                     ProductItem(
                         produit: data.produit,
                         quantite: data.quantite,
                         prixUnitaire: data.prixUnitaire,
                         prixHorsTax: data.prix_horsTax,
-                        prixAvecTax: data.prix_avecTax)
+                        prixAvecTax: data.prix_avecTax)*/
                 ],
               ),
-            ),*/
+            ),
           ],
         ),
       ),
@@ -247,13 +247,13 @@ class _AddFactState extends State<AddFact> {
           color: Colors.transparent,
           elevation: 8,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.circular(10.0), // Circular border
@@ -274,27 +274,7 @@ class _AddFactState extends State<AddFact> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
-                  // Add padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
-                  ),
-                  backgroundColor: const Color(0xff8c7bc9),
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                  // Shadow color
-                  // Shadow offset
-                  elevation: 2.0,
-                  // Button elevation for shadow
-                ),
-                child: Text("Imprimer", style: TextStyle(fontSize: 45.sp)),
-              ),
-              TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  padding:
-                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
+                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.circular(10.0), // Circular border

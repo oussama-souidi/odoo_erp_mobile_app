@@ -36,7 +36,9 @@ class _AjouterProduitState extends State<AjouterProduit> {
       backgroundColor: Colors.grey.shade100,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
-        child: const appBar(title: "Créer Ligne de commande",),
+        child: const appBar(
+          title: "Créer Ligne de facture",
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -58,10 +60,12 @@ class _AjouterProduitState extends State<AjouterProduit> {
                 isExpanded: true,
                 hint: const Text('Choisir un produit'),
                 value: _selectedProduct,
-                items: FakeRepo.data.map((product) => DropdownMenuItem(
-                  value: product,
-                  child: Text(product.produit),
-                )).toList(),
+                items: FakeRepo.data
+                    .map((product) => DropdownMenuItem(
+                          value: product,
+                          child: Text(product.produit),
+                        ))
+                    .toList(),
                 onChanged: (DataModel? newProduct) {
                   setState(() {
                     _selectedProduct = newProduct;
@@ -86,7 +90,8 @@ class _AjouterProduitState extends State<AjouterProduit> {
               ),
               TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "1.00"),
+                    contentPadding: EdgeInsets.only(left: 15.w),
+                    hintText: "1.00"),
               ),
               SizedBox(
                 height: 70.h,
@@ -100,7 +105,8 @@ class _AjouterProduitState extends State<AjouterProduit> {
               ),
               TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "0.00"),
+                    contentPadding: EdgeInsets.only(left: 15.w),
+                    hintText: "0.00"),
               ),
               SizedBox(
                 height: 70.h,
@@ -114,28 +120,22 @@ class _AjouterProduitState extends State<AjouterProduit> {
               ),
               TextField(
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15.w), hintText: "0%"),
+                    contentPadding: EdgeInsets.only(left: 15.w),
+                    hintText: "0%"),
               ),
               SizedBox(
                 height: 70.h,
               ),
               Text(
-                'Arrivée prévue',
+                'Description',
                 style: TextStyle(
                     fontSize: 50.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
               ),
               TextField(
-                readOnly: true, // Disable text editing
-                onTap: () => _selectDate(context, "arrivee"),
-
-                decoration: InputDecoration(
-                  hintText: selectedDate?.toString().substring(0, 10) ??
-                      'Choisir date',
-                  contentPadding: EdgeInsets.only(left: 15.w),
-                ),
-              ),
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 15.w))),
               SizedBox(
                 height: 90.h,
               ),
@@ -145,32 +145,45 @@ class _AjouterProduitState extends State<AjouterProduit> {
                   TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h), // Add padding
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 60.w, vertical: 40.h),
+                      // Add padding
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0), // Circular border
+                        borderRadius:
+                            BorderRadius.circular(10.0), // Circular border
                       ),
                       backgroundColor: const Color(0xff8c7bc9),
                       foregroundColor: Colors.white,
-                      shadowColor: Colors.grey.withOpacity(0.5), // Shadow color
+                      shadowColor: Colors.grey.withOpacity(0.5),
+                      // Shadow color
                       // Shadow offset
                       elevation: 2.0, // Button elevation for shadow
                     ),
-                    child: Text("Enregistrer & Fermer", style: TextStyle(fontSize: 40.sp),),
+                    child: Text(
+                      "Enregistrer & Fermer",
+                      style: TextStyle(fontSize: 40.sp),
+                    ),
                   ),
                   SizedBox(width: 60.w), // Add spacing between buttons
                   TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 40.h), // Add padding
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 60.w, vertical: 40.h),
+                      // Add padding
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0), // Circular border
+                        borderRadius:
+                            BorderRadius.circular(10.0), // Circular border
                       ),
                       backgroundColor: const Color(0xff8c7bc9),
                       foregroundColor: Colors.white,
                       shadowColor: Colors.grey.withOpacity(0.5),
                       elevation: 2.0, // Button elevation for shadow
                     ),
-                    child: Text("Annuler", style: TextStyle(fontSize: 40.sp),),
+                    child: Text(
+                      "Annuler",
+                      style: TextStyle(fontSize: 40.sp),
+                    ),
                   ),
                 ],
               ),

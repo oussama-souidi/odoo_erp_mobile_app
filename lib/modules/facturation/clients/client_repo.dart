@@ -1,6 +1,6 @@
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 
-class FakeRepo {
+class ClientRepo {
   static List<ClientModel> data = [
     ClientModel(
         nomClient: 'Deco Addict',

@@ -30,8 +30,11 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.white,),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+        body: Container(
+          color: Colors.grey.shade100,
+          child: Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
+          ),
         ),
         bottomNavigationBar: SizedBox(
           height: 60,
