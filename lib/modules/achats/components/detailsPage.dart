@@ -148,12 +148,15 @@ class detailsPage extends StatelessWidget {
                     height: 20.h,
                   ),
                   for (var data in _data)
-                    ProductItem(
-                        produit: data.produit,
-                        quantite: data.quantite,
-                        prixUnitaire: data.prixUnitaire,
-                        prixHorsTax: data.prix_horsTax,
-                        prixAvecTax: data.prix_avecTax)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
+                      child: ProductItem(
+                          produit: data.produit,
+                          quantite: data.quantite,
+                          prixUnitaire: data.prixUnitaire,
+                          prixHorsTax: data.prix_horsTax,
+                          prixAvecTax: data.prix_avecTax),
+                    )
                 ],
               ),
             ],

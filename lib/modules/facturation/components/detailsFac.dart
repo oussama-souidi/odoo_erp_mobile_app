@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
+import 'package:mobile_app/modules/facturation/clients/detailsClient.dart';
 import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
 import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
@@ -15,6 +16,7 @@ class DetailsFac extends StatelessWidget {
   final String etat;
 
   final produits = FakeRepo.data;
+
   DetailsFac(
       {super.key,
       required this.client,
@@ -82,13 +84,22 @@ class DetailsFac extends StatelessWidget {
                     'Client',
                     style: TextStyle(
                         fontSize: 50.sp,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.grey[800]),
                   ),
-                  Text(client.nomClient),
-                  Text(client.rue),
-                  Text("${client.ville} ${client.etat} ${client.codePostal}"),
-                  Text("${client.pays} ‒ ${client.nTVA}"),
+                  SizedBox(height: 20.h,),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => DetailsClient(client: client,)));
+                    },
+                    child: Text(
+                      "${client.nomClient}\n"
+                      "${client.rue}\n"
+                      "${client.ville} ${client.etat} ${client.codePostal}\n"
+                      "${client.pays} ‒ ${client.nTVA}",
+                      style: TextStyle(fontSize: 47.sp, color: Colors.grey[700], fontWeight: FontWeight.w400),
+                    ),
+                  ),
                   SizedBox(
                     height: 70.h,
                   ),
@@ -97,7 +108,7 @@ class DetailsFac extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey[700]),
+                        color: Colors.grey[800]),
                   ),
                   TextFormField(
                     readOnly: true,
@@ -114,7 +125,7 @@ class DetailsFac extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey[700]),
+                        color: Colors.grey[800]),
                   ),
                   TextFormField(
                     readOnly: true,
@@ -131,7 +142,7 @@ class DetailsFac extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey[700]),
+                        color: Colors.grey[800]),
                   ),
                   TextFormField(
                     readOnly: true,
@@ -143,13 +154,12 @@ class DetailsFac extends StatelessWidget {
                   SizedBox(
                     height: 70.h,
                   ),
-
                   Text(
                     'Date de livraison',
                     style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.grey[700]),
+                        color: Colors.grey[800]),
                   ),
                   TextFormField(
                     readOnly: true,
@@ -181,12 +191,15 @@ class DetailsFac extends StatelessWidget {
                     height: 50.h,
                   ),
                   for (var data in produits)
-                    ProductItem(
-                        produit: data.produit,
-                        quantite: data.quantite,
-                        prixUnitaire: data.prixUnitaire,
-                        prixHorsTax: data.prix_horsTax,
-                        prixAvecTax: data.prix_avecTax)
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
+                      child: ProductItem(
+                          produit: data.produit,
+                          quantite: data.quantite,
+                          prixUnitaire: data.prixUnitaire,
+                          prixHorsTax: data.prix_horsTax,
+                          prixAvecTax: data.prix_avecTax),
+                    )
                 ],
               ),
             ),

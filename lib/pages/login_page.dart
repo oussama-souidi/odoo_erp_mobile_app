@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
                   height: 150,
                   width: 300,
                   image: AssetImage(
-                'images/logo.png',
+                'assets/images/logo.png',
               )),
               const SizedBox(height: 25),
               const Text("Login", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
