@@ -100,7 +100,7 @@ class ListItem extends StatelessWidget {
                             id,
                             style: TextStyle(
                                 fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.grey[700]),
                           ),
                           SizedBox(width: 15.w),
@@ -108,7 +108,7 @@ class ListItem extends StatelessWidget {
                             date,
                             style: TextStyle(
                                 fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.grey[700]),
                           ),
                         ],

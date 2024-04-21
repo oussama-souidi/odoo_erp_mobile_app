@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
-import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
-import 'package:mobile_app/modules/achats/produits/product_item.dart';
+import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
+import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
+import 'package:mobile_app/modules/ventes/produits/product_item.dart';
 
 class AddCommand extends StatefulWidget {
   const AddCommand({super.key});

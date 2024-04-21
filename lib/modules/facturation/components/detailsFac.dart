@@ -6,7 +6,7 @@ import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 
 class DetailsFac extends StatelessWidget {
-  final String client;
+  final ClientModel client;
   final String montant;
   final String refFac;
   final String dateFac;
@@ -85,13 +85,10 @@ class DetailsFac extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: Colors.grey[800]),
                   ),
-                  TextFormField(
-                    readOnly: true,
-                    initialValue: client,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15.w),
-                    ),
-                  ),
+                  Text(client.nomClient),
+                  Text(client.rue),
+                  Text("${client.ville} ${client.etat} ${client.codePostal}"),
+                  Text("${client.pays} ‒ ${client.nTVA}"),
                   SizedBox(
                     height: 70.h,
                   ),

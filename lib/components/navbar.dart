@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:mobile_app/modules/facturation/facturation.dart';
+import 'package:mobile_app/modules/ventes/ventes.dart';
 import 'package:mobile_app/pages/home_page.dart';
 import 'package:mobile_app/pages/login_page.dart';
 
@@ -69,7 +70,10 @@ class NavBar extends StatelessWidget {
                   color: Color(0xff001950),
                 ),
                 title: const Text('Ventes'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Ventes()));
+                },
               ),
               ListTile(
                 leading: const Icon(

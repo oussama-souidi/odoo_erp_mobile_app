@@ -1,5 +1,7 @@
+import 'package:mobile_app/modules/facturation/clients/client_model.dart';
+
 class DataModel {
-  final String client;
+  final ClientModel client;
   final String montant;
   final String refFac;
   final String dateFac;

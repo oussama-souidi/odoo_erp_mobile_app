@@ -8,19 +8,19 @@ import 'pages/home_page.dart';
 
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+   const MyApp({super.key});
 
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      builder: (_, child) => SafeArea(
+      builder: (_, child) => const SafeArea(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Facturation()
+          home: HomePage()
         ),
       ),
       designSize: const Size(1080, 2220),

@@ -7,10 +7,16 @@ import 'package:mobile_app/modules/facturation/components/list_item.dart';
 
 import 'components/fake_repository.dart';
 
-class Facturation extends StatelessWidget {
-  final _data = FakeRepo.data;
+class Facturation extends StatefulWidget {
 
   Facturation({super.key});
+
+  @override
+  State<Facturation> createState() => _FacturationState();
+}
+
+class _FacturationState extends State<Facturation> {
+  final _data = FakeRepo.data;
 
   @override
   Widget build(BuildContext context) {
