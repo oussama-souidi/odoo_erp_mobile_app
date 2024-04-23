@@ -27,7 +27,7 @@ class _FacturationState extends State<Facturation> {
             title: "Facturation",
           )),
       drawer: const NavBar(),
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {

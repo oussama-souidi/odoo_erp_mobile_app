@@ -133,6 +133,93 @@ class detailsPage extends StatelessWidget {
                     )
                 ],
               ),
+              const Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 50.h),
+                child: SizedBox(
+                  height: 300.h,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Table(
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle, // Add space between rows
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('Montant HT: ',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[800])))),
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('\$ 2720.00',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[800])))),
+                          ],
+                        ),
+                        TableRow(
+                            children: [
+                              SizedBox(height: 20.h,),
+                              SizedBox(height: 20.h,),
+                            ]
+                        ),
+                        TableRow(
+                          children: [
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('Taxe 15%: ',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[800])))),
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('\$ 170.00',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey[600])))),
+                          ],
+                        ),
+                        TableRow(
+                            children: [
+                              SizedBox(height: 20.h,),
+                              SizedBox(height: 20.h,),
+                            ]
+                        ),
+                        TableRow(
+                          children: [
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('Total: ',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[800])))),
+                            TableCell(
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('\$ 2 890.00',
+                                        style: TextStyle(
+                                            fontSize: 48.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.grey[800])))),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ));

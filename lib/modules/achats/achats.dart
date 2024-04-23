@@ -20,7 +20,7 @@ class Achats extends StatelessWidget {
         child: const appBar(title: "Achats",)
       ),
       drawer: const NavBar(),
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {

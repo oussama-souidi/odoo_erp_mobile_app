@@ -33,7 +33,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: const Color(0xfff7f7f7),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
         child: const appBar(

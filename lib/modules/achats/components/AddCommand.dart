@@ -4,6 +4,9 @@ import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
 
+import '../../../components/pdf/downladPDF.dart';
+import '../../../components/pdf/generateInvoice.dart';
+
 class AddCommand extends StatefulWidget {
   const AddCommand({super.key});
 
@@ -30,37 +33,10 @@ class _AddCommandState extends State<AddCommand> {
       });
     }
   }
-  // for a responsive font size
-  /*double responsiveFontSize(BuildContext context, double referenceFontSize) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double averageDimension = (screenWidth + screenHeight) / 2;
-
-    double responsiveSize = referenceFontSize * (averageDimension / 480);
-
-    return responsiveSize;
-  }
-
-  // for a responsive padding
-  EdgeInsets responsivePadding(
-      BuildContext context, double horizontalFactor, double verticalFactor) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double horizontalPadding = screenWidth * horizontalFactor;
-    double verticalPadding = screenHeight * verticalFactor;
-
-    return EdgeInsets.symmetric(
-      horizontal: horizontalPadding,
-      vertical: verticalPadding,
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: const Color(0xfff7f7f7),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
         child: Container(
@@ -310,7 +286,26 @@ class _AddCommandState extends State<AddCommand> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    String customerName = "foulen";
+                    String invoiceNumber = "55555";
+                    double amount = 30000;
+                    final pdfBytesFuture = generateInvoicePdf(customerName, invoiceNumber, amount);
+                    await downloadPdf(pdfBytesFuture);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Invoice downloaded successfully!'),
+                      ),
+                    );
+                  } on Exception catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error downloading invoice: $error'),
+                      ),
+                    );
+                  }
+                },
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
