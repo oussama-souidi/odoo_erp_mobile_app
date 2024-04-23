@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/ventes/components/detailsPage.dart';
 
 
 class ListItem extends StatelessWidget {
-  final String fournisseur;
+  final ClientModel client;
   final String montant;
   final String id;
   final String date;
   final String etat;
 
   const ListItem(
-      {super.key, required this.fournisseur, required this.montant, required this.id, required this.date, required this.etat});
+      {super.key, required this.client, required this.montant, required this.id, required this.date, required this.etat});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,15 @@ class ListItem extends StatelessWidget {
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "envoyé":
-        boxColor = const Color(0xffbda7d1);
+      case "Envoyé":
+        boxColor = Color(0xff4CAF50);
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "demande de prix":
-        boxColor = Colors.white;
-        borderColor = const Color(0xffbda7d1);
-        textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
+      case "Devis":
+        boxColor = Colors.cyan;
+        borderColor = Colors.transparent;
+        textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
       default:
       // Handle unexpected text by setting default styles (optional)
@@ -47,7 +48,7 @@ class ListItem extends StatelessWidget {
       onTap: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
-                detailsPage(fournisseur: fournisseur,
+                detailsPage(client: client,
                     montant: montant,
                     id: id,
                     date: date,
@@ -79,7 +80,7 @@ class ListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(fournisseur
+                      Text(client.nomClient
                         ,
                         style:
                         TextStyle(fontSize: 45.sp, fontWeight: FontWeight.bold),

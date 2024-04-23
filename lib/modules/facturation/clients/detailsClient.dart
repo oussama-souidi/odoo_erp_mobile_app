@@ -57,15 +57,23 @@ class DetailsClient extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "${client.nomClient}\n"
-                        "${client.rue}\n"
-                        "${client.ville} ${client.etat} ${client.codePostal}\n"
-                        "${client.pays} ‒ ${client.nTVA}",
-                        style: TextStyle(
-                            fontSize: 47.sp,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w400),
+                      Expanded(
+                        child: TextFormField(
+                          readOnly: true,
+                          initialValue: client.nomClient,
+                          style: TextStyle(
+                              fontSize: 60.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black),
+                          decoration: InputDecoration(
+
+                            contentPadding:
+                                EdgeInsets.only(left: 15.w, bottom: -40.h),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20.sp,
                       ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10.r),

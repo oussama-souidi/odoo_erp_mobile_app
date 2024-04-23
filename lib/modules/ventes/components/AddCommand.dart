@@ -4,6 +4,9 @@ import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
 import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
 import 'package:mobile_app/modules/ventes/produits/product_item.dart';
 
+import '../../facturation/clients/client_model.dart';
+import '../../facturation/clients/client_repo.dart';
+
 class AddCommand extends StatefulWidget {
   const AddCommand({super.key});
 
@@ -12,6 +15,7 @@ class AddCommand extends StatefulWidget {
 }
 
 class _AddCommandState extends State<AddCommand> {
+  ClientModel? _selectedClient;
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
@@ -30,37 +34,11 @@ class _AddCommandState extends State<AddCommand> {
       });
     }
   }
-  // for a responsive font size
-  /*double responsiveFontSize(BuildContext context, double referenceFontSize) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double averageDimension = (screenWidth + screenHeight) / 2;
-
-    double responsiveSize = referenceFontSize * (averageDimension / 480);
-
-    return responsiveSize;
-  }
-
-  // for a responsive padding
-  EdgeInsets responsivePadding(
-      BuildContext context, double horizontalFactor, double verticalFactor) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double horizontalPadding = screenWidth * horizontalFactor;
-    double verticalPadding = screenHeight * verticalFactor;
-
-    return EdgeInsets.symmetric(
-      horizontal: horizontalPadding,
-      vertical: verticalPadding,
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Colors.grey.shade100,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
         child: Container(
@@ -80,7 +58,7 @@ class _AddCommandState extends State<AddCommand> {
               color: Colors.black87,
             ),
             title: Text(
-              "Nouvelle commande",
+              "Nouveau",
               style: TextStyle(color: Colors.black87, fontSize: 55.sp),
             ),
           ),
@@ -100,7 +78,7 @@ class _AddCommandState extends State<AddCommand> {
                       height: 50.h,
                     ),
                     Text(
-                      'Demande de prix',
+                      'Nouveau',
                       style:
                           TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
                     ),
@@ -108,54 +86,45 @@ class _AddCommandState extends State<AddCommand> {
                       height: 50.h,
                     ),
                     Text(
-                      'Fournisseur',
+                      'Client',
                       style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[800]),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                        hintText: 'Nom, numéro de TVA, email ou référence',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
-                      ),
+                    DropdownButton<ClientModel>(
+                      isExpanded: true,
+                      value: _selectedClient,
+                      items: ClientRepo.data.map((client) => DropdownMenuItem(
+                        value: client,
+                        child: Text(client.nomClient),
+                      )).toList(),
+                      onChanged: (ClientModel? newClient) {
+                        setState(() {
+                          _selectedClient = newClient;
+                        });
+                      },
                     ),
                     SizedBox(
                       height: 70.h,
                     ),
                     Text(
-                      'Référence fournisseur',
+                      'Expiration',
                       style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15.w)),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Échéance de commande',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextField(
                       readOnly: true, // Disable text editing
-                      onTap: () => _selectDate(context, "echeance"),
+                      onTap: () => _selectDate(context, "expiration"),
                       decoration: InputDecoration(
-                        hintText: selectedDates["echeance"]
+                        hintText: selectedDates["expiration"]
                                 ?.toString()
                                 .substring(0, 10) ??
                             'Choisir date',
                         hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
+                            fontSize: 44.sp, fontWeight: FontWeight.w400),
                         contentPadding: EdgeInsets.only(left: 15.w),
                       ),
                     ),
@@ -163,50 +132,7 @@ class _AddCommandState extends State<AddCommand> {
                       height: 70.h,
                     ),
                     Text(
-                      'Arrivée prévue',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextField(
-                      readOnly: true, // Disable text editing
-                      onTap: () => _selectDate(context, "arrivee"),
-
-                      decoration: InputDecoration(
-                        hintText:
-                            selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                                'Choisir date',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isChecked,
-                          onChanged: (bool? newValue) {
-                            setState(() {
-                              isChecked = newValue!;
-                            });
-                          },
-                        ),
-                        Text('Demande de confirmation',
-                            style: TextStyle(
-                                fontSize: 44.sp,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey[700])),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Produits',
+                      'Lignes de commande',
                       style: TextStyle(
                           fontSize: 55.sp,
                           fontWeight: FontWeight.bold,

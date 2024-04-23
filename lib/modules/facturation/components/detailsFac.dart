@@ -87,17 +87,27 @@ class DetailsFac extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Colors.grey[800]),
                   ),
-                  SizedBox(height: 20.h,),
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => DetailsClient(client: client,)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailsClient(
+                                    client: client,
+                                  )));
                     },
                     child: Text(
                       "${client.nomClient}\n"
                       "${client.rue}\n"
                       "${client.ville} ${client.etat} ${client.codePostal}\n"
                       "${client.pays} ‒ ${client.nTVA}",
-                      style: TextStyle(fontSize: 47.sp, color: Colors.grey[700], fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          fontSize: 47.sp,
+                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                   SizedBox(
@@ -192,7 +202,8 @@ class DetailsFac extends StatelessWidget {
                   ),
                   for (var data in produits)
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 30.w),
                       child: ProductItem(
                           produit: data.produit,
                           quantite: data.quantite,
@@ -201,6 +212,72 @@ class DetailsFac extends StatelessWidget {
                           prixAvecTax: data.prix_avecTax),
                     )
                 ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 50.w),
+              child: Container(
+                color: Colors.red,
+                width: 1080.w,
+                height: 300.h,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    color: Colors.yellowAccent,
+                    width: 540.w,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Montant HT: ",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800])),
+                            Text("\$ 2720.00",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Taxe 15%: ",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800])),
+                            Text("\$ 170.00",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Total: ",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800])),
+                            Text("\$ 2890.00",
+                                style: TextStyle(
+                                    fontSize: 50.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]))
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

@@ -54,7 +54,7 @@ class Ventes extends StatelessWidget {
               ),
               for (var data in _data)
                 ListItem(
-                  fournisseur: data.fournisseur,
+                  client: data.client,
                   montant: data.montant,
                   id: data.id,
                   date: data.date,

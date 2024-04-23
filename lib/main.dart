@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:mobile_app/modules/facturation/facturation.dart';
+import 'package:mobile_app/modules/ventes/ventes.dart';
 import 'pages/login_page.dart';
 import 'pages/home_page.dart';
 

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
 
 import '../../../components/appBar.dart';
+import '../../facturation/clients/detailsClient.dart';
 import '../produits/product_item.dart';
 
 
 class detailsPage extends StatelessWidget {
-  final String fournisseur;
+  final ClientModel client;
   final String montant;
   final String id;
   final String date;
@@ -15,7 +17,7 @@ class detailsPage extends StatelessWidget {
 
   detailsPage(
       {super.key,
-      required this.fournisseur,
+      required this.client,
       required this.montant,
       required this.id,
       required this.date,
@@ -28,7 +30,7 @@ class detailsPage extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(145.h),
-          child: const appBar(title: "Détails de commande",),
+          child: appBar(title: id,),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -42,51 +44,23 @@ class detailsPage extends StatelessWidget {
                       height: 50.h,
                     ),
                     Text(
-                      'Fournisseur',
+                      'Client',
                       style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                     ),
-                    TextFormField(
-                      readOnly: true,
-                      initialValue:fournisseur,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Montant',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextFormField(
-                      readOnly: true,
-                      initialValue:montant,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 70.h,
-                    ),
-                    Text(
-                      'Code de commande',
-                      style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
-                    ),
-                    TextFormField(
-                      readOnly: true,
-                      initialValue:id,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
+                    SizedBox(height: 20.h,),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => DetailsClient(client: client,)));
+                      },
+                      child: Text(
+                        "${client.nomClient}\n"
+                            "${client.rue}\n"
+                            "${client.ville} ${client.etat} ${client.codePostal}\n"
+                            "${client.pays} ‒ ${client.nTVA}",
+                        style: TextStyle(fontSize: 47.sp, color: Colors.grey[700], fontWeight: FontWeight.w400),
                       ),
                     ),
                     SizedBox(
@@ -95,9 +69,9 @@ class detailsPage extends StatelessWidget {
                     Text(
                       'Date de commande',
                       style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                     ),
                     TextFormField(
                       readOnly: true,
@@ -112,9 +86,9 @@ class detailsPage extends StatelessWidget {
                     Text(
                       'Etat de commande',
                       style: TextStyle(
-                          fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey[700]),
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                     ),
                     TextFormField(
                       readOnly: true,
@@ -136,7 +110,7 @@ class detailsPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 65.w),
                     child: Text(
-                      'Produits',
+                      'Lignes de commande',
                       style: TextStyle(
                           fontSize: 55.sp,
                           fontWeight: FontWeight.bold,
@@ -148,12 +122,15 @@ class detailsPage extends StatelessWidget {
                     height: 20.h,
                   ),
                   for (var data in _data)
-                    ProductItem(
-                        produit: data.produit,
-                        quantite: data.quantite,
-                        prixUnitaire: data.prixUnitaire,
-                        prixHorsTax: data.prix_horsTax,
-                        prixAvecTax: data.prix_avecTax)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
+                      child: ProductItem(
+                          produit: data.produit,
+                          quantite: data.quantite,
+                          prixUnitaire: data.prixUnitaire,
+                          prixHorsTax: data.prix_horsTax,
+                          prixAvecTax: data.prix_avecTax),
+                    )
                 ],
               ),
             ],
