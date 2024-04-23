@@ -290,7 +290,7 @@ class _AddCommandState extends State<AddCommand> {
                   try {
                     String customerName = "foulen";
                     String invoiceNumber = "55555";
-                    double amount = 30000;
+                    double amount = 3000;
                     final pdfBytesFuture = generateInvoicePdf(customerName, invoiceNumber, amount);
                     await downloadPdf(pdfBytesFuture);
                     ScaffoldMessenger.of(context).showSnackBar(
