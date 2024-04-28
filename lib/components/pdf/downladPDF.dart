@@ -11,7 +11,7 @@ Future<void> downloadPdf(Future<Uint8List> pdfBytesFuture) async {
     throw Exception('Storage permission is required to download the PDF.');
   }
 
-  // Await the generation of the PDF data (Uint8List)
+  
   final pdfBytes = await pdfBytesFuture;
 
   final directory = await getTemporaryDirectory();

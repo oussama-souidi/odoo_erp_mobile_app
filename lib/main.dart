@@ -5,10 +5,13 @@ import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:mobile_app/modules/facturation/facturation.dart';
 import 'package:mobile_app/modules/ventes/ventes.dart';
 import 'pages/login_page.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
 import 'pages/home_page.dart';
 
-
-void main() {
+//final orpc = OdooClient('https://souidi.odoo.com');
+main() {
+  /*final session = await orpc.authenticate('souidi', 'souidioussama14@gmail.com', 'heisenbeerg.odoo');
+  print(session.userLogin);*/
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) => const SafeArea(
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: HomePage()
+          home: LoginPage(),
         ),
       ),
       designSize: const Size(1080, 2220),
