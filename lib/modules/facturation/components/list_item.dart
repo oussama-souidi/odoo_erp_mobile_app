@@ -5,7 +5,7 @@ import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/facturation/components/detailsFac.dart';
 
 class ListItem extends StatelessWidget {
-  final ClientModel client;
+  final String client;
   final String montant;
   final String refFac;
   final String dateFac;
@@ -88,7 +88,7 @@ class ListItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        client.nomClient,
+                        client,
                         style: TextStyle(
                             fontSize: 45.sp, fontWeight: FontWeight.bold),
                       ),

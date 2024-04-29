@@ -7,7 +7,7 @@ import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 
 class DetailsFac extends StatelessWidget {
-  final ClientModel client;
+  final String client;
   final String montant;
   final String refFac;
   final String dateFac;
@@ -91,15 +91,22 @@ class DetailsFac extends StatelessWidget {
                     height: 20.h,
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(
+                      onTap: () {
+                        /*Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => DetailsClient(
                                     client: client,
-                                  )));
-                    },
-                    child: Text(
+                                  )));*/
+                      },
+                      child: Text(
+                        client,
+                        style: TextStyle(
+                            fontSize: 47.sp,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w400),
+                      )
+                      /*Text(
                       "${client.nomClient}\n"
                       "${client.rue}\n"
                       "${client.ville} ${client.etat} ${client.codePostal}\n"
@@ -108,8 +115,8 @@ class DetailsFac extends StatelessWidget {
                           fontSize: 47.sp,
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w400),
-                    ),
-                  ),
+                    ),*/
+                      ),
                   SizedBox(
                     height: 70.h,
                   ),
@@ -222,7 +229,8 @@ class DetailsFac extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle, // Add space between rows
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    // Add space between rows
                     children: [
                       TableRow(
                         children: [
@@ -244,12 +252,14 @@ class DetailsFac extends StatelessWidget {
                                           color: Colors.grey[800])))),
                         ],
                       ),
-                      TableRow(
-                        children: [
-                          SizedBox(height: 20.h,),
-                          SizedBox(height: 20.h,),
-                        ]
-                      ),
+                      TableRow(children: [
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                      ]),
                       TableRow(
                         children: [
                           TableCell(
@@ -270,12 +280,14 @@ class DetailsFac extends StatelessWidget {
                                           color: Colors.grey[600])))),
                         ],
                       ),
-                      TableRow(
-                          children: [
-                            SizedBox(height: 20.h,),
-                            SizedBox(height: 20.h,),
-                          ]
-                      ),
+                      TableRow(children: [
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                      ]),
                       TableRow(
                         children: [
                           TableCell(

@@ -7,6 +7,10 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 import 'home_page.dart';
 import 'login.dart';
 
+final odooClient = OdooClient('http://10.0.2.2:8069');
+String username ='';
+String password ='';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -18,17 +22,19 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+
   
   void _handleLogin() async {
     // Create Odoo client instance with server URL (and database name if needed)
-    final odooClient = OdooClient('http://10.0.2.2:8069');
-
     try {
       await odooClient.authenticate('demo', usernameController.text, passwordController.text);
+      username = usernameController.text;
+      password = passwordController.text;
       if (kDebugMode) {
         print("connected successfully");
       }
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     } on SocketException catch (e) {
       // Handle connection problems
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

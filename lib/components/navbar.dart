@@ -42,7 +42,7 @@ class NavBar extends StatelessWidget {
                 title: const Text('Accueil'),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const HomePage()));
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
               ),
               ListTile(

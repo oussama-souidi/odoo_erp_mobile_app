@@ -21,17 +21,38 @@ class ListItem extends StatelessWidget {
     TextStyle textStyle;
 
     switch (text) {
-      case "Bon de commande":
+      case 'purchase':
+        text = 'Bon de commande';
         boxColor = const Color(0xffbda7d1); // Light purple
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "envoyé":
-        boxColor = const Color(0xffbda7d1);
+      case 'sent':
+        text = 'Envoyé';
+        boxColor = const Color(0xff4CAF50);
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "demande de prix":
+      case 'draft':
+        text = 'Demande de prix';
+        boxColor = Colors.white;
+        borderColor = const Color(0xffbda7d1);
+        textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
+        break;
+      case 'done':
+        text = 'Verrouillé';
+        boxColor = const Color(0xff17a1b7);
+        borderColor = borderColor = Colors.transparent;;
+        textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
+        break;
+      case 'to approve':
+        text = 'A approuver';
+        boxColor = Colors.white;
+        borderColor = const Color(0xffbda7d1);
+        textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
+        break;
+      case 'cancel':
+        text = 'Annulé';
         boxColor = Colors.white;
         borderColor = const Color(0xffbda7d1);
         textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);

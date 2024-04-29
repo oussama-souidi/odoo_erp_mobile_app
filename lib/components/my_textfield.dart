@@ -28,8 +28,9 @@ class MyTextField extends StatelessWidget {
             ),
             fillColor: Colors.grey.shade200,
             filled: true,
+            focusColor: Colors.white,
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[500])),
+            hintStyle: TextStyle(color: Colors.grey[500]),),
       ),
     );
   }

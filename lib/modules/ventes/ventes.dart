@@ -15,11 +15,11 @@ class Ventes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      /*appBar: PreferredSize(
         preferredSize: Size.fromHeight(145.h),
         child: const appBar(title: "Ventes",)
       ),
-      drawer: const NavBar(),
+      drawer: const NavBar(),*/
       backgroundColor: Colors.grey.shade100,
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(

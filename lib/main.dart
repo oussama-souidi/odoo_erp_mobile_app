@@ -8,10 +8,8 @@ import 'pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import 'pages/home_page.dart';
 
-//final orpc = OdooClient('https://souidi.odoo.com');
+
 main() {
-  /*final session = await orpc.authenticate('souidi', 'souidioussama14@gmail.com', 'heisenbeerg.odoo');
-  print(session.userLogin);*/
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
