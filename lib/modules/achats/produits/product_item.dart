@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductItem extends StatelessWidget {
   final String produit;
-  final String quantite;
-  final String prixUnitaire;
-  final String prixHorsTax;
-  final String prixAvecTax;
+  final double quantite;
+  final double prixUnitaire;
+  final double prixHorsTax;
+  final double prixAvecTax;
 
   const ProductItem({super.key, required this.produit, required this.quantite, required this.prixUnitaire, required this.prixHorsTax, required this.prixAvecTax});
 
@@ -30,7 +30,7 @@ class ProductItem extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: 8.h, horizontal: 30.w),
+                vertical: 50.h, horizontal: 30.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment:
@@ -42,6 +42,8 @@ class ProductItem extends StatelessWidget {
                   children: [
                     Text(
                       produit,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 50.sp,
                           fontWeight: FontWeight.bold),

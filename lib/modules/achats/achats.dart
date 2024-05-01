@@ -85,7 +85,6 @@ class Achats extends StatelessWidget {
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData) {
-                      print('4444444444444444444444444444444444444444');
                       return
                         ListView.builder(
                           itemCount: snapshot.data.length,
