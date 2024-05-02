@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/components/navbar.dart';
+import 'package:mobile_app/modules/articles/articles.dart';
+import 'package:mobile_app/modules/partenaires/partenaires.dart';
 import 'package:mobile_app/pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
@@ -47,14 +49,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       const Text("Home page"),
-      const Text("magasins"),
       Facturation(),
       Ventes(),
       Achats(),
       const Text("stock"),
-      const Text("partenaires"),
-      const Text("articles"),
-      const Text("parametres"),
+      Partenaires(),
+      Articles(),
       const Text("logout"),
     ];
 
@@ -101,24 +101,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ListTile(
                     leading: const Icon(
-                      Icons.storefront,
-                      color: Color(0xff001950),
-                    ),
-                    title: const Text('Magasins'),
-                    onTap: () {
-                      _onNavigationItemSelected(1);
-                      Navigator.pop(context);
-                      appBarText = 'Magasins';
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(
                       Icons.attach_money,
                       color: Color(0xff001950),
                     ),
                     title: const Text('Facturation'),
                     onTap: () {
-                      _onNavigationItemSelected(2);
+                      _onNavigationItemSelected(1);
                       Navigator.pop(context);
                       appBarText = 'Facturation';
                     },
@@ -130,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: const Text('Ventes'),
                     onTap: () {
-                      _onNavigationItemSelected(3);
+                      _onNavigationItemSelected(2);
                       Navigator.pop(context);
                       appBarText = 'Ventes';
                     },
@@ -142,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: const Text('Achats'),
                     onTap: () {
-                      _onNavigationItemSelected(4);
+                      _onNavigationItemSelected(3);
                       Navigator.pop(context);
                       appBarText = 'Achats';
                     },
@@ -154,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: const Text('Stock'),
                     onTap: () {
-                      _onNavigationItemSelected(5);
+                      _onNavigationItemSelected(4);
                       Navigator.pop(context);
                       appBarText = 'Stock';
                     },
@@ -166,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: const Text('Partenaires'),
                     onTap: () {
-                      _onNavigationItemSelected(6);
+                      _onNavigationItemSelected(5);
                       Navigator.pop(context);
                       appBarText = 'Partenaires';
                     },
@@ -178,24 +166,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                     title: const Text('Articles'),
                     onTap: () {
-                      _onNavigationItemSelected(7);
+                      _onNavigationItemSelected(6);
                       Navigator.pop(context);
                       appBarText = 'Articles';
                     },
                   ),
                   const Divider(),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.settings,
-                      color: Color(0xff001950),
-                    ),
-                    title: const Text('Paramètres'),
-                    onTap: () {
-                      _onNavigationItemSelected(8);
-                      Navigator.pop(context);
-                      appBarText = 'Accueil';
-                    },
-                  ),
                   ListTile(
                     title: const Text('Logout'),
                     leading: const Icon(

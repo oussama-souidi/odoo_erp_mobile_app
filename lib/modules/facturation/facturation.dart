@@ -51,8 +51,9 @@ class Facturation extends StatelessWidget {
       etat: record['state'].toString(),
     );
   }
-
-  final _data = FakeRepo.data;
+  Future<void> _refresh(){
+    return Future.delayed(const Duration(seconds: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,72 +75,74 @@ class Facturation extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 50.h,
-              ),
-              Text(
-                'Factures clients',
-                style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              SizedBox(
-                height: 1900.h,
-                child: FutureBuilder(
-                    future: fetchFact(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.hasData) {
-                        print('3333333333333333333333333333');
-                        return
-                          ListView.builder(
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                final record =
-                                snapshot.data[index] as Map<String, dynamic>;
-                                return buildListItem(record);
-                              });
-                      } else {
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
+        child: RefreshIndicator(
+          onRefresh: _refresh,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 50.h,
+                ),
+                Text(
+                  'Factures clients',
+                  style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                SizedBox(
+                  height: 1900.h,
+                  child: FutureBuilder(
+                      future: fetchFact(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          return
+                            ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  final record =
+                                  snapshot.data[index] as Map<String, dynamic>;
+                                  return buildListItem(record);
+                                });
+                        } else {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return const CircularProgressIndicator();
                         }
-                        return const CircularProgressIndicator();
-                      }
-                    }),
-              ),
-              /*for (var data in _data)
-                ListItem(
-                  client: data.client,
-                  montant: data.montant,
-                  refFac: data.refFac,
-                  dateFac: data.dateFac,
-                  dateEch: data.dateEch,
-                  dateLiv: data.dateLiv,
-                  etat: data.etat,
-                )*/
-              /*GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  mainAxisExtent: 80,
+                      }),
                 ),
-                itemCount: _data.length,
-                itemBuilder: (context, index) => Container(
-                  child: ListItem(
-                    fournisseur: _data[index].fournisseur,
-                    montant: _data[index].montant,
-                    id: _data[index].id,
-                    date: _data[index].date,
-                    etat: _data[index].etat,
+                /*for (var data in _data)
+                  ListItem(
+                    client: data.client,
+                    montant: data.montant,
+                    refFac: data.refFac,
+                    dateFac: data.dateFac,
+                    dateEch: data.dateEch,
+                    dateLiv: data.dateLiv,
+                    etat: data.etat,
+                  )*/
+                /*GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1,
+                    mainAxisExtent: 80,
                   ),
-                ),
-              ),*/
-            ],
+                  itemCount: _data.length,
+                  itemBuilder: (context, index) => Container(
+                    child: ListItem(
+                      fournisseur: _data[index].fournisseur,
+                      montant: _data[index].montant,
+                      id: _data[index].id,
+                      date: _data[index].date,
+                      etat: _data[index].etat,
+                    ),
+                  ),
+                ),*/
+              ],
+            ),
           ),
         ),
       ),

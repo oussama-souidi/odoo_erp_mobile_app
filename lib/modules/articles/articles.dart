@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/components/appBar.dart';
-import 'package:mobile_app/components/navbar.dart';
-import 'package:mobile_app/modules/achats/components/AddCommand.dart';
-import 'package:mobile_app/modules/achats/components/list_item.dart';
+import 'package:mobile_app/modules/articles/components/list_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../pages/login_page.dart';
-import 'components/fake_repository.dart';
+import 'components/AddProduct.dart';
 
-class Achats extends StatelessWidget {
-  final _data = FakeRepo.data;
-
-  Achats({super.key});
+class Articles extends StatelessWidget {
+  Articles({super.key});
 
   final odooClient = OdooClient('http://10.0.2.2:8069');
 
@@ -19,27 +14,33 @@ class Achats extends StatelessWidget {
     await odooClient.authenticate('demo', username, password);
   }
 
-  Future<dynamic> fetchAchats() async {
+  Future<dynamic> fetchArticles() async {
     await check();
     return odooClient.callKw({
-      'model': 'purchase.order',
+      'model': 'product.template',
       'method': 'search_read',
       'args': [],
       'kwargs': {
-        'context': {'bin_size': true},
+        'context': {'bin_size': true, 'lang': 'fr_FR'},
         'domain': [],
-        'fields': ['name', 'partner_id', 'date_order', 'amount_total', 'state'],
+        'fields': [
+          'name',
+          'default_code',
+          'list_price',
+          'standard_price',
+          'qty_available'
+        ],
       },
     });
   }
 
   Widget buildListItem(Map<String, dynamic> record) {
     return ListItem(
-        fournisseur: record['partner_id'][1].toString(),
-        montant: record['amount_total'].toString(),
-        id: record['name'].toString(),
-        date: record['date_order'].toString(),
-        etat: record['state'].toString());
+        nomProduit: record['name'] is String ? record['name'] : '',
+        refProduit: record['default_code'] is String ? record['default_code'] : '',
+        prixVente: record['list_price'].toString(),
+        cout: record['standard_price'].toString(),
+        quantite: record['qty_available'].toString());
   }
 
   @override
@@ -49,16 +50,14 @@ class Achats extends StatelessWidget {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddCommand()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddProduct()));
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
-
-          // ...
         ),
       ),
       body: Padding(
@@ -81,12 +80,11 @@ class Achats extends StatelessWidget {
             SizedBox(
               height: 1900.h,
               child: FutureBuilder(
-                  future: fetchAchats(),
+                  future: fetchArticles(),
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     if (snapshot.hasData) {
-                      return
-                        ListView.builder(
+                      return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             final record =

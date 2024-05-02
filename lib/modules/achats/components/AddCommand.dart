@@ -3,13 +3,33 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../components/pdf/downladPDF.dart';
 import '../../../components/pdf/generateInvoice.dart';
+import '../../../pages/login_page.dart';
 
 class AddCommand extends StatefulWidget {
-  const AddCommand({super.key});
+  AddCommand({super.key});
+  final odooClient = OdooClient('http://10.0.2.2:8069');
 
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> fetchAchats() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'purchase.order',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [],
+        'fields': ['name', 'partner_id', 'date_order', 'amount_total', 'state'],
+      },
+    });
+  }
   @override
   State<AddCommand> createState() => _AddCommandState();
 }
@@ -294,7 +314,7 @@ class _AddCommandState extends State<AddCommand> {
                     final pdfBytesFuture = generateInvoicePdf(customerName, invoiceNumber, amount);
                     await downloadPdf(pdfBytesFuture);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text('Invoice downloaded successfully!'),
                       ),
                     );
