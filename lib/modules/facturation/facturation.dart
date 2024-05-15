@@ -42,13 +42,13 @@ class Facturation extends StatelessWidget {
 
   Widget buildListItem(Map<String, dynamic> record) {
     return ListItem(
-      client: record['invoice_partner_display_name'].toString(),
+      client: record['invoice_partner_display_name'] is String ? record['invoice_partner_display_name'] : '',
       montant: record['amount_total_signed'].toString(),
-      refFac: record['name'].toString(),
-      dateFac: record['invoice_date'].toString(),
-      dateEch: record['invoice_date_due'].toString(),
-      dateLiv: record['delivery_date'].toString(),
-      etat: record['state'].toString(),
+      refFac: record['name'] is String ? record['name'] : '',
+      dateFac: record['invoice_date'] is String ? record['invoice_date'] : '',
+      dateEch: record['invoice_date_due'] is String ? record['invoice_date_due'] : '',
+      dateLiv: record['delivery_date'] is String ? record['delivery_date'] : '',
+      etat: record['state'] is String ? record['state'] : '',
     );
   }
   Future<void> _refresh(){
@@ -63,15 +63,13 @@ class Facturation extends StatelessWidget {
         builder: (context) => FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddFact()));
+                MaterialPageRoute(builder: (context) => AddFact()));
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(
             Icons.add,
             color: Colors.white,
           ),
-
-          // ...
         ),
       ),
       body: SingleChildScrollView(
@@ -115,32 +113,7 @@ class Facturation extends StatelessWidget {
                         }
                       }),
                 ),
-                /*for (var data in _data)
-                  ListItem(
-                    client: data.client,
-                    montant: data.montant,
-                    refFac: data.refFac,
-                    dateFac: data.dateFac,
-                    dateEch: data.dateEch,
-                    dateLiv: data.dateLiv,
-                    etat: data.etat,
-                  )*/
-                /*GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    mainAxisExtent: 80,
-                  ),
-                  itemCount: _data.length,
-                  itemBuilder: (context, index) => Container(
-                    child: ListItem(
-                      fournisseur: _data[index].fournisseur,
-                      montant: _data[index].montant,
-                      id: _data[index].id,
-                      date: _data[index].date,
-                      etat: _data[index].etat,
-                    ),
-                  ),
-                ),*/
+
               ],
             ),
           ),

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductItem extends StatelessWidget {
-  final String produit;
-  final String quantite;
-  final String prixUnitaire;
-  final String prixHorsTax;
-  final String prixAvecTax;
+  final String? produit;
+  final String? quantite;
+  final String? prixUnitaire;
+  final String? prixHorsTax;
+  final String? prixAvecTax;
 
   const ProductItem(
       {super.key,
@@ -42,7 +42,7 @@ class ProductItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      produit,
+                      produit!,
                       style: TextStyle(
                           fontSize: 50.sp, fontWeight: FontWeight.bold),
                     ),

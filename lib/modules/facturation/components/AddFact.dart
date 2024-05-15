@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
-import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
-import 'package:mobile_app/modules/facturation/produits/AddProduct.dart';
-import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
+import 'package:mobile_app/modules/facturation/components/AddProduct.dart';
+import 'package:mobile_app/modules/facturation/produits/data_model.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
+
+import '../../../pages/login_page.dart';
 
 
 class AddFact extends StatefulWidget {
@@ -15,11 +17,58 @@ class AddFact extends StatefulWidget {
 }
 
 class _AddFactState extends State<AddFact> {
-  ClientModel? _selectedClient;
+  String? _selectedClient;
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
-  final produits = FakeRepo.data;
+  final odooClient = OdooClient('http://10.0.2.2:8069');
+
+
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> partners() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'res.partner',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [],
+        'fields': ['name'],
+      },
+    });
+  }
+
+  Future<dynamic> fetchProduits(String name) async {
+    await check();
+    return odooClient.callKw({
+      'model': 'product.template',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': ['product_id', '=', name],
+        'fields': ['name', 'price_unit', 'tax_ids'],
+      },
+    });
+  }
+
+  Widget buildListItem(Map<String, dynamic> record, String? quantite) {
+    return ProductItem(
+        produit: record['name'],
+        quantite: quantite,
+        prixUnitaire: record['price_unit'],
+        prixHorsTax: (double.parse(record['price_unit'].toString()) *
+                double.parse(quantite!))
+            .toStringAsFixed(2),
+        prixAvecTax: ((double.parse(record['price_unit'].toString()) *
+                    double.parse(quantite)) *
+                1.15)
+            .toStringAsFixed(2));
+  }
 
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
@@ -78,7 +127,7 @@ class _AddFactState extends State<AddFact> {
                   Text(
                     'Facture client',
                     style:
-                    TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 50.h,
@@ -90,17 +139,37 @@ class _AddFactState extends State<AddFact> {
                         fontWeight: FontWeight.w400,
                         color: Colors.grey[800]),
                   ),
-                  DropdownButton<ClientModel>(
-                    isExpanded: true,
-                    value: _selectedClient,
-                    items: ClientRepo.data.map((client) => DropdownMenuItem(
-                      value: client,
-                      child: Text(client.nomClient),
-                    )).toList(),
-                    onChanged: (ClientModel? newClient) {
-                      setState(() {
-                        _selectedClient = newClient;
-                      });
+                  FutureBuilder(
+                    future: partners(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        List<dynamic> partners = snapshot.data!;
+                        List<String> partnerNames = [];
+                        partnerNames = partners
+                            .map((partner) => partner['name'] as String)
+                            .toList();
+                        return DropdownButton<String>(
+                          isExpanded: true,
+                          value: _selectedClient,
+                          items: partnerNames
+                              .map((String client) => DropdownMenuItem(
+                                    value: client,
+                                    child: Text(client),
+                                  ))
+                              .toList(),
+                          onChanged: (String? newClient) {
+                            setState(() {
+                              _selectedClient = newClient;
+                            });
+                          },
+                        );
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        return const CircularProgressIndicator();
+                      }
                     },
                   ),
                   SizedBox(
@@ -117,9 +186,8 @@ class _AddFactState extends State<AddFact> {
                     readOnly: true, // Disable text editing
                     onTap: () => _selectDate(context, "dateFac"),
                     decoration: InputDecoration(
-                      hintText: selectedDates["dateFac"]
-                          ?.toString()
-                          .substring(0, 10),
+                      hintText:
+                          selectedDates["dateFac"]?.toString().substring(0, 10),
                       hintStyle: TextStyle(
                           fontSize: 44.sp, fontWeight: FontWeight.normal),
                       contentPadding: EdgeInsets.only(left: 15.w),
@@ -153,9 +221,8 @@ class _AddFactState extends State<AddFact> {
                     readOnly: true, // Disable text editing
                     onTap: () => _selectDate(context, "dateEch"),
                     decoration: InputDecoration(
-                      hintText: selectedDates["dateEch"]
-                          ?.toString()
-                          .substring(0, 10),
+                      hintText:
+                          selectedDates["dateEch"]?.toString().substring(0, 10),
                       hintStyle: TextStyle(
                           fontSize: 44.sp, fontWeight: FontWeight.normal),
                       contentPadding: EdgeInsets.only(left: 15.w),
@@ -168,7 +235,7 @@ class _AddFactState extends State<AddFact> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 50.h, top:50.h),
+              padding: EdgeInsets.only(bottom: 50.h, top: 50.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -216,13 +283,28 @@ class _AddFactState extends State<AddFact> {
                   SizedBox(
                     height: 50.h,
                   ),
-                  /*for (var data in produits)
+                  for (var product in selectedProducts)
                     ProductItem(
-                        produit: data.produit,
-                        quantite: data.quantite,
-                        prixUnitaire: data.prixUnitaire,
-                        prixHorsTax: data.prix_horsTax,
-                        prixAvecTax: data.prix_avecTax)*/
+                        produit: product.produit,
+                        quantite: product.quantite,
+                        prixUnitaire: product.prixUnitaire,
+                        prixHorsTax: product.prix_horsTax,
+                        prixAvecTax: product.prix_avecTax)
+                  /*for (var data in selectedProducts)
+                    FutureBuilder(
+                      future: fetchProduits(data['produit']!),
+                      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          return buildListItem(snapshot.data, data['quantite']);
+                        } else {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return const CircularProgressIndicator();
+                        }
+                      },
+
+                    )*/
                 ],
               ),
             ),
@@ -253,10 +335,10 @@ class _AddFactState extends State<AddFact> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
+                        BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: const Color(0xff8c7bc9),
                   foregroundColor: Colors.white,
@@ -274,10 +356,10 @@ class _AddFactState extends State<AddFact> {
                 onPressed: () {},
                 style: TextButton.styleFrom(
                   padding:
-                  EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(10.0), // Circular border
+                        BorderRadius.circular(10.0), // Circular border
                   ),
                   backgroundColor: Colors.grey.shade300,
                   foregroundColor: Colors.black,

@@ -31,17 +31,20 @@ class ListItem extends StatelessWidget {
     TextStyle textStyle;
 
     switch (text) {
-      case "Comptabilisé":
+      case 'posted':
+        text = 'Comptabilisé';
         boxColor = const Color(0xff4CAF50); // Light purple
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "Brouillon":
+      case 'draft':
+        text = 'Brouillon';
         boxColor = Colors.white;
         borderColor = const Color(0xffbda7d1);
         textStyle = TextStyle(color: Colors.black, fontSize: 33.sp);
         break;
       default:
+        text = 'Annulé';
         // Handle unexpected text by setting default styles (optional)
         boxColor = Colors.grey.shade200;
         borderColor = Colors.transparent;
