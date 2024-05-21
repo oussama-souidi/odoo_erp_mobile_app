@@ -5,7 +5,7 @@ import 'package:mobile_app/modules/ventes/components/detailsPage.dart';
 
 
 class ListItem extends StatelessWidget {
-  final ClientModel client;
+  final String client;
   final String montant;
   final String id;
   final String date;
@@ -22,18 +22,21 @@ class ListItem extends StatelessWidget {
     TextStyle textStyle;
 
     switch (text) {
-      case "Bon de commande":
-        boxColor = const Color(0xffbda7d1); // Light purple
+      case 'draft':
+        text = 'Quotation';
+        boxColor = Color(0xff5ba7f6); // Light purple
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
-      case "Envoyé":
+      case 'sent':
+        text = 'Quotation Sent';
+        boxColor = Color(0xff7e2fc7);
+        borderColor = Colors.transparent;
+        textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
+        break;
+      case 'sale':
+        text = 'Sales Order';
         boxColor = Color(0xff4CAF50);
-        borderColor = Colors.transparent;
-        textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
-        break;
-      case "Devis":
-        boxColor = Colors.cyan;
         borderColor = Colors.transparent;
         textStyle = TextStyle(color: Colors.white, fontSize: 33.sp);
         break;
@@ -80,7 +83,7 @@ class ListItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(client.nomClient
+                      Text(client
                         ,
                         style:
                         TextStyle(fontSize: 45.sp, fontWeight: FontWeight.bold),
@@ -120,7 +123,7 @@ class ListItem extends StatelessWidget {
                             border: Border.all(color: borderColor),
                             borderRadius: BorderRadius.circular(10.r)),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w,
+                          padding: EdgeInsets.symmetric(horizontal: 10.w,
                               vertical: 3.h),
                           child: FittedBox(
                             child: Text(text,

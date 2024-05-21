@@ -4,14 +4,44 @@ import 'package:mobile_app/components/appBar.dart';
 import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/ventes/components/AddCommand.dart';
 import 'package:mobile_app/modules/ventes/components/list_item.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
 
+import '../../pages/login_page.dart';
+import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
 import 'components/fake_repository.dart';
 
 class Ventes extends StatelessWidget {
   final _data = FakeRepo.data;
 
   Ventes({super.key});
+  final odooClient = OdooClient('http://10.0.2.2:8069');
 
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> fetchVentes() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'sale.order',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [],
+        'fields': ['name', 'partner_id', 'create_date', 'amount_total', 'state'],
+      },
+    });
+  }
+  Widget buildListItem(Map<String, dynamic> record) {
+
+    return ListItem(
+        client: record['partner_id'][1].toString(),
+        montant: record['amount_total'].toString(),
+        id: record['name'].toString(),
+        date: record['create_date'].toString(),
+        etat: record['state'].toString());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +54,7 @@ class Ventes extends StatelessWidget {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {
+            selectedProducts = [];
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const AddCommand()));
           },
@@ -52,14 +83,29 @@ class Ventes extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              for (var data in _data)
-                ListItem(
-                  client: data.client,
-                  montant: data.montant,
-                  id: data.id,
-                  date: data.date,
-                  etat: data.etat,
-                )
+              SizedBox(
+                height: 1900.h,
+                child: FutureBuilder(
+                    future: fetchVentes(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        return
+                          ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                final record =
+                                snapshot.data[index] as Map<String, dynamic>;
+                                return buildListItem(record);
+                              });
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        return const CircularProgressIndicator();
+                      }
+                    }),
+              ),
               /*GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,

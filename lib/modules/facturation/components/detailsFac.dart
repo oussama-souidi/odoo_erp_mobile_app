@@ -5,11 +5,15 @@ import 'package:mobile_app/modules/facturation/clients/detailsClient.dart';
 import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
 import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
+
+import '../../../pages/login_page.dart';
 
 class DetailsFac extends StatelessWidget {
   final String client;
   final String montant;
   final String refFac;
+  final String id;
   final String dateFac;
   final String dateEch;
   final String dateLiv;
@@ -22,11 +26,53 @@ class DetailsFac extends StatelessWidget {
       required this.client,
       required this.montant,
       required this.refFac,
+      required this.id,
       required this.dateFac,
       required this.dateEch,
       required this.dateLiv,
       required this.etat});
+  final odooClient = OdooClient('http://10.0.2.2:8069');
+  final montantHT = 0.00;
+  final tax = 0.00;
 
+
+
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> fetchProduits() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'account.move.line',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [
+          ['move_id', '=', refFac], ['product_id', '!=', false]
+        ],
+        'fields': [
+          'product_id',
+          'quantity',
+          'price_unit',
+          'price_subtotal',
+          'price_total'
+        ],
+      },
+    });
+  }
+  Widget buildListItem(Map<String, dynamic> record) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      child: ProductItem(
+          produit: record['product_id'][1].split(']').last.trim().toString(),
+          quantite: record['quantity'].toString(),
+          prixUnitaire: record['price_unit'].toString(),
+          prixHorsTax: record['price_subtotal'].toString(),
+          prixAvecTax: record['price_total'].toString()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,33 +136,13 @@ class DetailsFac extends StatelessWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                  InkWell(
-                      onTap: () {
-                        /*Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailsClient(
-                                    client: client,
-                                  )));*/
-                      },
-                      child: Text(
-                        client,
-                        style: TextStyle(
-                            fontSize: 47.sp,
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.w400),
-                      )
-                      /*Text(
-                      "${client.nomClient}\n"
-                      "${client.rue}\n"
-                      "${client.ville} ${client.etat} ${client.codePostal}\n"
-                      "${client.pays} ‒ ${client.nTVA}",
-                      style: TextStyle(
-                          fontSize: 47.sp,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.w400),
-                    ),*/
-                      ),
+                  Text(
+                    client,
+                    style: TextStyle(
+                        fontSize: 47.sp,
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w400),
+                  ),
                   SizedBox(
                     height: 70.h,
                   ),
@@ -207,7 +233,30 @@ class DetailsFac extends StatelessWidget {
                   SizedBox(
                     height: 50.h,
                   ),
-                  for (var data in produits)
+                  FutureBuilder(
+                      future: fetchProduits(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          return
+                            SizedBox(
+                              height: snapshot.data.length * 370.h,
+                              child: ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    final record =
+                                    snapshot.data[index] as Map<String, dynamic>;
+                                    return buildListItem(record);
+                                  }),
+                            );
+                        } else {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return const CircularProgressIndicator();
+                        }
+                      }),
+                  /*for (var data in produits)
                     Container(
                       padding: EdgeInsets.symmetric(
                           vertical: 10.h, horizontal: 30.w),
@@ -217,7 +266,7 @@ class DetailsFac extends StatelessWidget {
                           prixUnitaire: data.prixUnitaire,
                           prixHorsTax: data.prix_horsTax,
                           prixAvecTax: data.prix_avecTax),
-                    )
+                    )*/
                 ],
               ),
             ),
@@ -227,10 +276,10 @@ class DetailsFac extends StatelessWidget {
               child: SizedBox(
                 height: 300.h,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    // Add space between rows
+                    defaultVerticalAlignment: TableCellVerticalAlignment
+                        .middle, // Add space between rows
                     children: [
                       TableRow(
                         children: [
@@ -245,7 +294,7 @@ class DetailsFac extends StatelessWidget {
                           TableCell(
                               child: Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text('\$ 2720.00',
+                                  child: Text('\$ ${(double.parse(montant)/1.15).toStringAsFixed(2)}',
                                       style: TextStyle(
                                           fontSize: 48.sp,
                                           fontWeight: FontWeight.w500,
@@ -273,7 +322,7 @@ class DetailsFac extends StatelessWidget {
                           TableCell(
                               child: Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text('\$ 170.00',
+                                  child: Text('\$ ${(double.parse(montant) - double.parse(montant)/1.15).toStringAsFixed(2)}',
                                       style: TextStyle(
                                           fontSize: 48.sp,
                                           fontWeight: FontWeight.w400,
@@ -301,7 +350,7 @@ class DetailsFac extends StatelessWidget {
                           TableCell(
                               child: Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text('\$ 2 890.00',
+                                  child: Text('\$ $montant',
                                       style: TextStyle(
                                           fontSize: 48.sp,
                                           fontWeight: FontWeight.w500,

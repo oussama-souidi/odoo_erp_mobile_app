@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/components/appBar.dart';
-import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:mobile_app/modules/achats/components/list_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../pages/login_page.dart';
+import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'components/fake_repository.dart';
 
 class Achats extends StatelessWidget {
@@ -34,6 +33,7 @@ class Achats extends StatelessWidget {
   }
 
   Widget buildListItem(Map<String, dynamic> record) {
+    
     return ListItem(
         fournisseur: record['partner_id'][1].toString(),
         montant: record['amount_total'].toString(),
@@ -49,8 +49,9 @@ class Achats extends StatelessWidget {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {
+            selectedProducts = [];
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddCommand()));
+                MaterialPageRoute(builder: (context) => const AddCommand()));
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(

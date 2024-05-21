@@ -26,8 +26,6 @@ class detailsPage extends StatelessWidget {
   final montantHT = 0.00;
   final tax = 0.00;
 
-
-
   Future<dynamic> check() async {
     await odooClient.authenticate('demo', username, password);
   }
@@ -53,17 +51,44 @@ class detailsPage extends StatelessWidget {
       },
     });
   }
+
   Widget buildListItem(Map<String, dynamic> record) {
-    return ProductItem(
-        produit: record['product_id'][1].split(']').last.trim().toString(),
-        quantite: record['product_qty'],
-        prixUnitaire: record['price_unit'],
-        prixHorsTax: record['price_subtotal'],
-        prixAvecTax: record['price_total']);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      child: ProductItem(
+          produit: record['product_id'][1].split(']').last.trim().toString(),
+          quantite: record['product_qty'].toString(),
+          prixUnitaire: record['price_unit'].toString(),
+          prixHorsTax: record['price_subtotal'].toString(),
+          prixAvecTax: record['price_total'].toString()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    String text = etat;
+    switch (text) {
+      case 'purchase':
+        text = 'Bon de commande';
+        break;
+      case 'sent':
+        text = 'Envoyé';
+        break;
+      case 'draft':
+        text = 'Demande de prix';
+        break;
+      case 'done':
+        text = 'Verrouillé';
+        break;
+      case 'to approve':
+        text = 'A approuver';
+        break;
+      case 'cancel':
+        text = 'Annulé';
+        break;
+      default:
+        text = etat;
+    }
     return Scaffold(
         backgroundColor: const Color(0xfff7f7f7),
         appBar: PreferredSize(
@@ -160,7 +185,7 @@ class detailsPage extends StatelessWidget {
                     ),
                     TextFormField(
                       readOnly: true,
-                      initialValue: etat,
+                      initialValue: text,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 15.w),
                       ),
@@ -190,20 +215,19 @@ class detailsPage extends StatelessWidget {
                   ),
                   FutureBuilder(
                       future: fetchProduits(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.hasData) {
-                          return
-                            SizedBox(
-                              height: snapshot.data.length * 370.h,
-                              child: ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, index) {
-                                    final record =
-                                    snapshot.data[index] as Map<String, dynamic>;
-                                    return buildListItem(record);
-                                  }),
-                            );
+                          return SizedBox(
+                            height: snapshot.data.length * 370.h,
+                            child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  final record = snapshot.data[index]
+                                      as Map<String, dynamic>;
+                                  return buildListItem(record);
+                                }),
+                          );
                         } else {
                           if (snapshot.hasError) {
                             return Text(snapshot.error.toString());
@@ -248,7 +272,8 @@ class detailsPage extends StatelessWidget {
                             TableCell(
                                 child: Align(
                                     alignment: Alignment.centerRight,
-                                    child: Text('\$ ${(double.parse(montant)/1.15).toStringAsFixed(2)}',
+                                    child: Text(
+                                        '\$ ${(double.parse(montant) / 1.15).toStringAsFixed(2)}',
                                         style: TextStyle(
                                             fontSize: 48.sp,
                                             fontWeight: FontWeight.w500,
@@ -276,7 +301,8 @@ class detailsPage extends StatelessWidget {
                             TableCell(
                                 child: Align(
                                     alignment: Alignment.centerRight,
-                                    child: Text('\$ ${(double.parse(montant) - double.parse(montant)/1.15).toStringAsFixed(2)}',
+                                    child: Text(
+                                        '\$ ${(double.parse(montant) - double.parse(montant) / 1.15).toStringAsFixed(2)}',
                                         style: TextStyle(
                                             fontSize: 48.sp,
                                             fontWeight: FontWeight.w400,

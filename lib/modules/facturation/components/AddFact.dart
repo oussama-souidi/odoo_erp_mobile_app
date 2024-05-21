@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
@@ -18,6 +20,7 @@ class AddFact extends StatefulWidget {
 
 class _AddFactState extends State<AddFact> {
   String? _selectedClient;
+  int? _selectedClientID;
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
@@ -37,25 +40,38 @@ class _AddFactState extends State<AddFact> {
       'kwargs': {
         'context': {'bin_size': true},
         'domain': [],
-        'fields': ['name'],
+        'fields': ['name','id'],
       },
     });
   }
 
-  Future<dynamic> fetchProduits(String name) async {
+  Future<dynamic> addInvoiceRPC() async {
     await check();
-    return odooClient.callKw({
-      'model': 'product.template',
-      'method': 'search_read',
-      'args': [],
-      'kwargs': {
-        'context': {'bin_size': true},
-        'domain': ['product_id', '=', name],
-        'fields': ['name', 'price_unit', 'tax_ids'],
+    return odooClient.callKw(
+      {
+        'model': 'acount.move',
+        'method': 'create',
+        'args': [
+          {
+            'move_type': 'out_invoice',
+            'partner_id': _selectedClientID,
+            'invoice_line_ids': selectedProducts.map((product) {
+              return [
+                0,
+                0,
+                {
+                  'product_id': product.id,
+                  'quantity': double.parse(product.quantite),
+                  'price_unit': double.parse(product.prixUnitaire),
+                },
+              ];
+            }).toList(),
+          }
+        ],
+        'kwargs': {}
       },
-    });
+    );
   }
-
   Widget buildListItem(Map<String, dynamic> record, String? quantite) {
     return ProductItem(
         produit: record['name'],
@@ -149,6 +165,10 @@ class _AddFactState extends State<AddFact> {
                         partnerNames = partners
                             .map((partner) => partner['name'] as String)
                             .toList();
+                        List<int> partnerIDS = [];
+                        partnerIDS = partners
+                            .map((partner) => partner['id'] as int)
+                            .toList();
                         return DropdownButton<String>(
                           isExpanded: true,
                           value: _selectedClient,
@@ -161,6 +181,8 @@ class _AddFactState extends State<AddFact> {
                           onChanged: (String? newClient) {
                             setState(() {
                               _selectedClient = newClient;
+                              _selectedClientID =partnerIDS[partnerNames.indexOf(_selectedClient!)];
+
                             });
                           },
                         );
@@ -332,7 +354,30 @@ class _AddFactState extends State<AddFact> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    int productId = await addInvoiceRPC();
+                    print(productId);
+                    print('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+                  } on SocketException catch (e) {
+                    // Handle connection problems
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Connection error"),
+                    ));
+                  } on OdooException catch (e) {
+                    // Handle API errors (likely invalid credentials)
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Failed to create invoice."),
+                    ));
+                  } catch (e) {
+                    // Handle API errors
+                    print("Unexpected error: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Please try again later."),
+                    ));
+                  }
+                },
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),
@@ -353,7 +398,7 @@ class _AddFactState extends State<AddFact> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {Navigator.pop(context);},
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 50.w),

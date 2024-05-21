@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
 import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
 import 'package:mobile_app/modules/ventes/produits/product_item.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
 
+import '../../../pages/login_page.dart';
 import '../../facturation/clients/client_model.dart';
 import '../../facturation/clients/client_repo.dart';
 
@@ -15,7 +17,7 @@ class AddCommand extends StatefulWidget {
 }
 
 class _AddCommandState extends State<AddCommand> {
-  ClientModel? _selectedClient;
+  String? _selectedClient;
   DateTime? selectedDate;
   bool isChecked = false;
   final Map<String, DateTime?> selectedDates = {};
@@ -34,7 +36,25 @@ class _AddCommandState extends State<AddCommand> {
       });
     }
   }
+  final odooClient = OdooClient('http://10.0.2.2:8069');
 
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> fetchclient() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'res.partner',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [],
+        'fields': ['name'],
+      },
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,17 +112,37 @@ class _AddCommandState extends State<AddCommand> {
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[800]),
                     ),
-                    DropdownButton<ClientModel>(
-                      isExpanded: true,
-                      value: _selectedClient,
-                      items: ClientRepo.data.map((client) => DropdownMenuItem(
-                        value: client,
-                        child: Text(client.nomClient),
-                      )).toList(),
-                      onChanged: (ClientModel? newClient) {
-                        setState(() {
-                          _selectedClient = newClient;
-                        });
+                    FutureBuilder(
+                      future: fetchclient(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          List<dynamic> partners = snapshot.data!;
+                          List<String> partnerNames = [];
+                          partnerNames = partners
+                              .map((partner) => partner['name'] as String)
+                              .toList();
+                          return DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedClient,
+                            items: partnerNames
+                                .map((String client) => DropdownMenuItem(
+                              value: client,
+                              child: Text(client),
+                            ))
+                                .toList(),
+                            onChanged: (String? newClient) {
+                              setState(() {
+                                _selectedClient = newClient;
+                              });
+                            },
+                          );
+                        } else {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return const CircularProgressIndicator();
+                        }
                       },
                     ),
                     SizedBox(
@@ -172,7 +212,13 @@ class _AddCommandState extends State<AddCommand> {
                     SizedBox(
                       height: 50.h,
                     ),
-
+                    for (var product in selectedProducts)
+                      ProductItem(
+                          produit: product.produit,
+                          quantite: product.quantite,
+                          prixUnitaire: product.prixUnitaire,
+                          prixHorsTax: product.prix_horsTax,
+                          prixAvecTax: product.prix_avecTax)
                   ],
                 ),
               ),
@@ -235,28 +281,9 @@ class _AddCommandState extends State<AddCommand> {
                   style: TextStyle(fontSize: 45.sp),
                 ),
               ),
+
               TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
-                  // Add padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(10.0), // Circular border
-                  ),
-                  backgroundColor: const Color(0xff8c7bc9),
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                  // Shadow color
-                  // Shadow offset
-                  elevation: 2.0,
-                  // Button elevation for shadow
-                ),
-                child: Text("Imprimer", style: TextStyle(fontSize: 45.sp)),
-              ),
-              TextButton(
-                onPressed: () {},
+                onPressed: () {Navigator.pop(context);},
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),

@@ -6,7 +6,9 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../components/appBar.dart';
 import '../../../pages/login_page.dart';
+
 List<DataModel> selectedProducts = [];
+
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
 
@@ -15,10 +17,10 @@ class AjouterProduit extends StatefulWidget {
 }
 
 class _AjouterProduitState extends State<AjouterProduit> {
-  DateTime? selectedDate;
   String? _selectedProduct;
 
   DataModel selectedProduct = DataModel(
+      id: 0,
       produit: '',
       quantite: '',
       prixUnitaire: '',
@@ -35,13 +37,13 @@ class _AjouterProduitState extends State<AjouterProduit> {
   Future<dynamic> products() async {
     await check();
     return odooClient.callKw({
-      'model': 'product.template',
+      'model': 'product.product',
       'method': 'search_read',
       'args': [],
       'kwargs': {
         'context': {'bin_size': true},
         'domain': [],
-        'fields': ['name', 'list_price'],
+        'fields': ['name', 'list_price','id'],
       },
     });
   }
@@ -98,6 +100,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
                           for (var product in products) {
                             if (product['name'] == _selectedProduct) {
                               selectedProduct = DataModel(
+                                  id: product['id'],
                                   produit: product['name'],
                                   quantite: '',
                                   prixUnitaire:
@@ -106,7 +109,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
                                   prix_avecTax: '');
                             }
                           }
-                          print(selectedProduct.produit);
+                          print(selectedProduct.id);
                           print(
                               "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                         });
@@ -189,14 +192,8 @@ class _AjouterProduitState extends State<AjouterProduit> {
                                   double.parse(quantite.text)) *
                               1.15)
                           .toStringAsFixed(2);
-                      print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-                      print(selectedProduct.produit);
-                      print(selectedProduct.quantite);
-                      print(selectedProduct.prixUnitaire);
-                      print(selectedProduct.prix_horsTax);
-                      print(selectedProduct.prix_avecTax);
-
                       selectedProducts.add(DataModel(
+                          id: selectedProduct.id,
                           produit: selectedProduct.produit,
                           quantite: selectedProduct.quantite,
                           prixUnitaire: selectedProduct.prixUnitaire,

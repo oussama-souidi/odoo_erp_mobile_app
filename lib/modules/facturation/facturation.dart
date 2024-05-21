@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/components/appBar.dart';
 import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/facturation/components/AddFact.dart';
+import 'package:mobile_app/modules/facturation/components/AddProduct.dart';
 import 'package:mobile_app/modules/facturation/components/list_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
@@ -26,8 +27,9 @@ class Facturation extends StatelessWidget {
       'args': [],
       'kwargs': {
         'context': {'bin_size': true},
-        'domain': [],
+        'domain': [['move_type', '=', 'out_invoice']],
         'fields': [
+          'id',
           'name',
           'invoice_partner_display_name',
           'invoice_date',
@@ -45,6 +47,7 @@ class Facturation extends StatelessWidget {
       client: record['invoice_partner_display_name'] is String ? record['invoice_partner_display_name'] : '',
       montant: record['amount_total_signed'].toString(),
       refFac: record['name'] is String ? record['name'] : '',
+      id: record['id'] is String ? record['id'] : '',
       dateFac: record['invoice_date'] is String ? record['invoice_date'] : '',
       dateEch: record['invoice_date_due'] is String ? record['invoice_date_due'] : '',
       dateLiv: record['delivery_date'] is String ? record['delivery_date'] : '',
@@ -62,8 +65,9 @@ class Facturation extends StatelessWidget {
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
           onPressed: () {
+            selectedProducts = [];
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddFact()));
+                MaterialPageRoute(builder: (context) => const AddFact()));
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(

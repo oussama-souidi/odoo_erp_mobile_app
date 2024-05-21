@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mobile_app/components/my_textfield.dart';
@@ -34,23 +36,50 @@ class _LoginPageState extends State<LoginPage> {
         print("connected successfully");
       }
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
     } on SocketException catch (e) {
       // Handle connection problems
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      Fluttertoast.showToast(
+        msg: "Connection error.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey.shade400,
+        textColor: Colors.black87,
+        fontSize: 45.sp,
+      );
+      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Connection error"),
-      ));
+      ));*/
     } on OdooException catch (e) {
       // Handle API errors (likely invalid credentials)
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      Fluttertoast.showToast(
+        msg: "Invalid email or password",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey.shade400,
+        textColor: Colors.black87,
+        fontSize: 45.sp,
+      );
+      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Invalid email or password"),
-      ));
+      ));*/
     } catch (e) {
       // Handle API errors
       print("Unexpected error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      Fluttertoast.showToast(
+        msg: "Please try again later.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey.shade400,
+        textColor: Colors.black87,
+        fontSize: 45.sp,
+      );
+      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please try again later."),
-      ));
+      ));*/
     }
   }
   void _handleForgotPassword() async {
@@ -105,20 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                 hintText: 'Password',
                 obscureText: true,
               ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 25),
+              SizedBox(height: 50.h),
               TextButton(
                 // ignore: void_checks
                 onPressed: () {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
-import 'package:mobile_app/modules/achats/produits/fake_repository.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
@@ -10,26 +9,8 @@ import '../../../components/pdf/generateInvoice.dart';
 import '../../../pages/login_page.dart';
 
 class AddCommand extends StatefulWidget {
-  AddCommand({super.key});
-  final odooClient = OdooClient('http://10.0.2.2:8069');
+  const AddCommand({super.key});
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
-
-  Future<dynamic> fetchAchats() async {
-    await check();
-    return odooClient.callKw({
-      'model': 'purchase.order',
-      'method': 'search_read',
-      'args': [],
-      'kwargs': {
-        'context': {'bin_size': true},
-        'domain': [],
-        'fields': ['name', 'partner_id', 'date_order', 'amount_total', 'state'],
-      },
-    });
-  }
   @override
   State<AddCommand> createState() => _AddCommandState();
 }
@@ -37,9 +18,27 @@ class AddCommand extends StatefulWidget {
 class _AddCommandState extends State<AddCommand> {
   DateTime? selectedDate;
   bool isChecked = false;
+  String? _selectedClient;
   final Map<String, DateTime?> selectedDates = {};
-  final _data = FakeRepo.data;
+  final odooClient = OdooClient('http://10.0.2.2:8069');
 
+  Future<dynamic> check() async {
+    await odooClient.authenticate('demo', username, password);
+  }
+
+  Future<dynamic> fetchFournisseurs() async {
+    await check();
+    return odooClient.callKw({
+      'model': 'res.partner',
+      'method': 'search_read',
+      'args': [],
+      'kwargs': {
+        'context': {'bin_size': true},
+        'domain': [],
+        'fields': ['name'],
+      },
+    });
+  }
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
       context: context,
@@ -53,6 +52,7 @@ class _AddCommandState extends State<AddCommand> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,13 +110,38 @@ class _AddCommandState extends State<AddCommand> {
                           fontWeight: FontWeight.w300,
                           color: Colors.grey[700]),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.w),
-                        hintText: 'Nom, numéro de TVA, email ou référence',
-                        hintStyle: TextStyle(
-                            fontSize: 44.sp, fontWeight: FontWeight.normal),
-                      ),
+                    FutureBuilder(
+                      future: fetchFournisseurs(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.hasData) {
+                          List<dynamic> partners = snapshot.data!;
+                          List<String> partnerNames = [];
+                          partnerNames = partners
+                              .map((partner) => partner['name'] as String)
+                              .toList();
+                          return DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedClient,
+                            items: partnerNames
+                                .map((String client) => DropdownMenuItem(
+                              value: client,
+                              child: Text(client),
+                            ))
+                                .toList(),
+                            onChanged: (String? newClient) {
+                              setState(() {
+                                _selectedClient = newClient;
+                              });
+                            },
+                          );
+                        } else {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 70.h,
@@ -242,7 +267,13 @@ class _AddCommandState extends State<AddCommand> {
                     SizedBox(
                       height: 50.h,
                     ),
-
+                    for (var product in selectedProducts)
+                      ProductItem(
+                          produit: product.produit,
+                          quantite: product.quantite,
+                          prixUnitaire: product.prixUnitaire,
+                          prixHorsTax: product.prix_horsTax,
+                          prixAvecTax: product.prix_avecTax)
                   ],
                 ),
               ),

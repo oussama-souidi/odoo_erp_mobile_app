@@ -8,6 +8,7 @@ class ListItem extends StatelessWidget {
   final String client;
   final String montant;
   final String refFac;
+  final String id;
   final String dateFac;
   final String dateEch;
   final String dateLiv;
@@ -18,6 +19,7 @@ class ListItem extends StatelessWidget {
       required this.client,
       required this.montant,
       required this.refFac,
+      required this.id,
       required this.dateFac,
       required this.dateEch,
       required this.dateLiv,
@@ -60,6 +62,7 @@ class ListItem extends StatelessWidget {
                       client: client,
                       montant: montant,
                       refFac: refFac,
+                      id: id,
                       dateFac: dateFac,
                       dateEch: dateEch,
                       dateLiv: dateLiv,
