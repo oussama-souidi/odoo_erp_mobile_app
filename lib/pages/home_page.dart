@@ -4,6 +4,7 @@ import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/articles/articles.dart';
 import 'package:mobile_app/modules/partenaires/partenaires.dart';
+import 'package:mobile_app/modules/stock/stock.dart';
 import 'package:mobile_app/pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       Facturation(),
       Ventes(),
       Achats(),
-      const Text("stock"),
+      Stock(),
       Partenaires(),
       Articles(),
       const Text("logout"),
@@ -71,11 +72,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 UserAccountsDrawerHeader(
                   accountName: const Text('User Account'),
-                  accountEmail: const Text('user@gmail.com'),
+                  accountEmail:Text(username),
                   currentAccountPicture: CircleAvatar(
                     child: ClipOval(
                       child: Image.asset(
-                        'assets/images/pfp.jpg',
+                        'assets/images/logo.png',
                         fit: BoxFit.cover,
                         width: 90,
                         height: 90,
@@ -173,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Divider(),
                   ListTile(
-                    title: const Text('Logout'),
+                    title: const Text('Déconnexion'),
                     leading: const Icon(
                       Icons.exit_to_app,
                       color: Color(0xff001950),
