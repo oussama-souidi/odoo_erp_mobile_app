@@ -10,9 +10,14 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../pages/login_page.dart';
 import 'components/fake_repository.dart';
 
-class Facturation extends StatelessWidget {
+class Facturation extends StatefulWidget {
   Facturation({super.key});
 
+  @override
+  State<Facturation> createState() => _FacturationState();
+}
+
+class _FacturationState extends State<Facturation> {
   final odooClient = OdooClient('http://10.0.2.2:8069');
 
   Future<dynamic> check() async {
@@ -54,6 +59,7 @@ class Facturation extends StatelessWidget {
       etat: record['state'] is String ? record['state'] : '',
     );
   }
+
   Future<void> _refresh(){
     return Future.delayed(const Duration(seconds: 1));
   }
@@ -64,10 +70,13 @@ class Facturation extends StatelessWidget {
       backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             selectedProducts = [];
-            Navigator.push(context,
+            final result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const AddFact()));
+            if (result == true){
+              setState(() {});
+            }
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(

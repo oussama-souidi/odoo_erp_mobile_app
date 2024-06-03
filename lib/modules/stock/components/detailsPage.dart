@@ -74,9 +74,7 @@ class detailsPage extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    SizedBox(
-                      height: 90.h,
-                    ),
+
                     TextFormField(
                       readOnly: true,
                       initialValue: name,
@@ -94,9 +92,6 @@ class detailsPage extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    SizedBox(
-                      height: 90.h,
-                    ),
                     TextFormField(
                       readOnly: true,
                       initialValue: id,
@@ -105,7 +100,7 @@ class detailsPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 70.h,
+                      height: 90.h,
                     ),
                   ],
                 ),
@@ -133,7 +128,7 @@ class detailsPage extends StatelessWidget {
                           AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.hasData) {
                           return SizedBox(
-                            height: snapshot.data.length * 300.h,
+                            height: 1000.h,
                             child: ListView.builder(
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (context, index) {

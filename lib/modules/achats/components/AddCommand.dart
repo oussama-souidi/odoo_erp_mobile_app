@@ -1,12 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'package:mobile_app/modules/achats/produits/product_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:mobile_app/modules/achats/produits/data_model.dart';
 
 import '../../../components/pdf/downladPDF.dart';
 import '../../../components/pdf/generateInvoice.dart';
 import '../../../pages/login_page.dart';
+
+List<DataModel> selectedProducts = [];
 
 class AddCommand extends StatefulWidget {
   const AddCommand({super.key});
@@ -19,6 +24,7 @@ class _AddCommandState extends State<AddCommand> {
   DateTime? selectedDate;
   bool isChecked = false;
   String? _selectedClient;
+  int? _selectedClientID;
   final Map<String, DateTime?> selectedDates = {};
   final odooClient = OdooClient('http://10.0.2.2:8069');
 
@@ -35,9 +41,35 @@ class _AddCommandState extends State<AddCommand> {
       'kwargs': {
         'context': {'bin_size': true},
         'domain': [],
-        'fields': ['name'],
+        'fields': ['name', 'id'],
       },
     });
+  }
+  Future<dynamic> addPurchaseRPC() async {
+    await check();
+    return odooClient.callKw(
+      {
+        'model': 'purchase.order',
+        'method': 'create',
+        'args': [
+          {
+            'partner_id': _selectedClientID,
+            'order_line': selectedProducts.map((product) {
+              return [
+                0,
+                0,
+                {
+                  'product_id': product.id,
+                  'product_qty': double.parse(product.quantite),
+                  'price_unit': double.parse(product.prixUnitaire),
+                },
+              ];
+            }).toList(),
+          }
+        ],
+        'kwargs': {}
+      },
+    );
   }
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
@@ -97,8 +129,8 @@ class _AddCommandState extends State<AddCommand> {
                     ),
                     Text(
                       'Demande de prix',
-                      style:
-                          TextStyle(fontSize: 55.sp, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 55.sp, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 50.h,
@@ -120,18 +152,24 @@ class _AddCommandState extends State<AddCommand> {
                           partnerNames = partners
                               .map((partner) => partner['name'] as String)
                               .toList();
+                          List<int> partnerIDS = [];
+                          partnerIDS = partners
+                              .map((partner) => partner['id'] as int)
+                              .toList();
                           return DropdownButton<String>(
                             isExpanded: true,
                             value: _selectedClient,
                             items: partnerNames
                                 .map((String client) => DropdownMenuItem(
-                              value: client,
-                              child: Text(client),
-                            ))
+                                      value: client,
+                                      child: Text(client),
+                                    ))
                                 .toList(),
                             onChanged: (String? newClient) {
                               setState(() {
                                 _selectedClient = newClient;
+                                _selectedClientID = partnerIDS[
+                                    partnerNames.indexOf(_selectedClient!)];
                               });
                             },
                           );
@@ -195,9 +233,10 @@ class _AddCommandState extends State<AddCommand> {
                       onTap: () => _selectDate(context, "arrivee"),
 
                       decoration: InputDecoration(
-                        hintText:
-                            selectedDates["arrivee"]?.toString().substring(0, 10) ??
-                                'Choisir date',
+                        hintText: selectedDates["arrivee"]
+                                ?.toString()
+                                .substring(0, 10) ??
+                            'Choisir date',
                         hintStyle: TextStyle(
                             fontSize: 44.sp, fontWeight: FontWeight.normal),
                         contentPadding: EdgeInsets.only(left: 15.w),
@@ -238,11 +277,15 @@ class _AddCommandState extends State<AddCommand> {
                       height: 50.h,
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+
+                        final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const AjouterProduit()));
+                        if (result == true){
+                          setState(() {});
+                        }
                       },
                       onHover: (_) {},
                       child: Container(
@@ -316,7 +359,30 @@ class _AddCommandState extends State<AddCommand> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    int productId = await addPurchaseRPC();
+                    selectedProducts = [];
+                    Navigator.pop(context, true);
+                  } on SocketException catch (e) {
+                    // Handle connection problems
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Connection error"),
+                    ));
+                  } on OdooException catch (e) {
+                    // Handle API errors (likely invalid credentials)
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Failed to create invoice."),
+                    ));
+                  } catch (e) {
+                    // Handle API errors
+                    print("Unexpected error: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Please try again later."),
+                    ));
+                  }
+                },
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),
@@ -342,7 +408,8 @@ class _AddCommandState extends State<AddCommand> {
                     String customerName = "foulen";
                     String invoiceNumber = "55555";
                     double amount = 3000;
-                    final pdfBytesFuture = generateInvoicePdf(customerName, invoiceNumber, amount);
+                    final pdfBytesFuture =
+                        generateInvoicePdf(customerName, invoiceNumber, amount);
                     await downloadPdf(pdfBytesFuture);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

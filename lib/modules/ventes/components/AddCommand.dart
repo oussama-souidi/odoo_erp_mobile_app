@@ -1,14 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
-import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
+import 'package:mobile_app/modules/ventes/produits/data_model.dart';
 import 'package:mobile_app/modules/ventes/produits/product_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../pages/login_page.dart';
-import '../../facturation/clients/client_model.dart';
-import '../../facturation/clients/client_repo.dart';
 
+List<DataModel> selectedProducts = [];
 class AddCommand extends StatefulWidget {
   const AddCommand({super.key});
 
@@ -19,9 +20,8 @@ class AddCommand extends StatefulWidget {
 class _AddCommandState extends State<AddCommand> {
   String? _selectedClient;
   DateTime? selectedDate;
-  bool isChecked = false;
+  int? _selectedClientID;
   final Map<String, DateTime?> selectedDates = {};
-  final _data = FakeRepo.data;
 
   Future<void> _selectDate(BuildContext context, String dateKey) async {
     var pickedDate = await showDatePicker(
@@ -51,9 +51,35 @@ class _AddCommandState extends State<AddCommand> {
       'kwargs': {
         'context': {'bin_size': true},
         'domain': [],
-        'fields': ['name'],
+        'fields': ['name','id'],
       },
     });
+  }
+  Future<dynamic> addSaleRPC() async {
+    await check();
+    return odooClient.callKw(
+      {
+        'model': 'sale.order',
+        'method': 'create',
+        'args': [
+          {
+            'partner_id': _selectedClientID,
+            'order_line': selectedProducts.map((product) {
+              return [
+                0,
+                0,
+                {
+                  'product_id': product.id,
+                  'product_uom_qty': double.parse(product.quantite),
+                  'price_unit': double.parse(product.prixUnitaire),
+                },
+              ];
+            }).toList(),
+          }
+        ],
+        'kwargs': {}
+      },
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -122,6 +148,10 @@ class _AddCommandState extends State<AddCommand> {
                           partnerNames = partners
                               .map((partner) => partner['name'] as String)
                               .toList();
+                          List<int> partnerIDS = [];
+                          partnerIDS = partners
+                              .map((partner) => partner['id'] as int)
+                              .toList();
                           return DropdownButton<String>(
                             isExpanded: true,
                             value: _selectedClient,
@@ -134,6 +164,8 @@ class _AddCommandState extends State<AddCommand> {
                             onChanged: (String? newClient) {
                               setState(() {
                                 _selectedClient = newClient;
+                                _selectedClientID =partnerIDS[partnerNames.indexOf(_selectedClient!)];
+
                               });
                             },
                           );
@@ -183,11 +215,15 @@ class _AddCommandState extends State<AddCommand> {
                       height: 50.h,
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+
+                        final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const AjouterProduit()));
+                        if (result == true){
+                          setState(() {});
+                        }
                       },
                       onHover: (_) {},
                       child: Container(
@@ -261,7 +297,30 @@ class _AddCommandState extends State<AddCommand> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    int productId = await addSaleRPC();
+                    selectedProducts = [];
+                    Navigator.pop(context, true);
+                  } on SocketException catch (e) {
+                    // Handle connection problems
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Connection error"),
+                    ));
+                  } on OdooException catch (e) {
+                    // Handle API errors (likely invalid credentials)
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Failed to create invoice."),
+                    ));
+                  } catch (e) {
+                    // Handle API errors
+                    print("Unexpected error: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Please try again later."),
+                    ));
+                  }
+                },
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),

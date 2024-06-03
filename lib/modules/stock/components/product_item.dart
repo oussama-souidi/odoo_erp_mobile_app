@@ -30,23 +30,44 @@ class ProductItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 30.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      produit.split(']').last.trim(),
-                      style: TextStyle(
-                          fontSize: 50.sp, fontWeight: FontWeight.bold),
-                    ),
-
-                  ],
-                ),
-              ],
+            padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 30.w),
+            child: SizedBox(
+              height: 270.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        produit.split(']').last.trim(),
+                        style: TextStyle(
+                            fontSize: 50.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20.h,),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "Quantité réservé : $reserverQuantity",
+                        style: TextStyle(
+                            fontSize: 48.sp,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey[700]),
+                      ),
+                      Text(
+                        "Quantité en stock : $inventoryQuantity",
+                        style: TextStyle(
+                            fontSize: 48.sp,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           /*Padding(

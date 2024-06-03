@@ -4,6 +4,7 @@ import 'package:mobile_app/modules/achats/achats.dart';
 import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/articles/articles.dart';
 import 'package:mobile_app/modules/partenaires/partenaires.dart';
+import 'package:mobile_app/modules/production/production.dart';
 import 'package:mobile_app/modules/stock/stock.dart';
 import 'package:mobile_app/pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       Stock(),
       Partenaires(),
       Articles(),
+      Production(),
       const Text("logout"),
     ];
 
@@ -170,6 +172,17 @@ class _HomePageState extends State<HomePage> {
                       _onNavigationItemSelected(6);
                       Navigator.pop(context);
                       appBarText = 'Articles';
+                    },
+                  ),ListTile(
+                    leading: const Icon(
+                      Icons.precision_manufacturing_rounded,
+                      color: Color(0xff001950),
+                    ),
+                    title: const Text('Production'),
+                    onTap: () {
+                      _onNavigationItemSelected(7);
+                      Navigator.pop(context);
+                      appBarText = 'Production';
                     },
                   ),
                   const Divider(),

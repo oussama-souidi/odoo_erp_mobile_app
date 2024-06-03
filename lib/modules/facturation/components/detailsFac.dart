@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/facturation/clients/detailsClient.dart';
 import 'package:mobile_app/modules/facturation/clients/client_repo.dart';
-import 'package:mobile_app/modules/facturation/produits/fake_repository.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
@@ -18,8 +17,6 @@ class DetailsFac extends StatelessWidget {
   final String dateEch;
   final String dateLiv;
   final String etat;
-
-  final produits = FakeRepo.data;
 
   DetailsFac(
       {super.key,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/achats/produits/data_model.dart';
+import 'package:mobile_app/modules/achats/components/AddCommand.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../components/appBar.dart';
 import '../../../pages/login_page.dart';
-List<DataModel> selectedProducts = [];
+
+
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
 
@@ -14,10 +16,10 @@ class AjouterProduit extends StatefulWidget {
 }
 
 class _AjouterProduitState extends State<AjouterProduit> {
-  DateTime? selectedDate;
   String? _selectedProduct;
 
   DataModel selectedProduct = DataModel(
+      id: 0,
       produit: '',
       quantite: '',
       prixUnitaire: '',
@@ -34,13 +36,13 @@ class _AjouterProduitState extends State<AjouterProduit> {
   Future<dynamic> products() async {
     await check();
     return odooClient.callKw({
-      'model': 'product.template',
+      'model': 'product.product',
       'method': 'search_read',
       'args': [],
       'kwargs': {
         'context': {'bin_size': true},
         'domain': [],
-        'fields': ['name', 'list_price'],
+        'fields': ['name', 'list_price','id'],
       },
     });
   }
@@ -97,6 +99,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
                           for (var product in products) {
                             if (product['name'] == _selectedProduct) {
                               selectedProduct = DataModel(
+                                  id: product['id'],
                                   produit: product['name'],
                                   quantite: '',
                                   prixUnitaire:
@@ -186,12 +189,13 @@ class _AjouterProduitState extends State<AjouterProduit> {
                           1.15)
                           .toStringAsFixed(2);
                       selectedProducts.add(DataModel(
+                          id: selectedProduct.id,
                           produit: selectedProduct.produit,
                           quantite: selectedProduct.quantite,
                           prixUnitaire: selectedProduct.prixUnitaire,
                           prix_horsTax: selectedProduct.prix_horsTax,
                           prix_avecTax: selectedProduct.prix_avecTax));
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(

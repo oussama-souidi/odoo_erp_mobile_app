@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
-import 'package:mobile_app/modules/ventes/produits/fake_repository.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../components/appBar.dart';
@@ -24,7 +23,6 @@ class detailsPage extends StatelessWidget {
       required this.date,
       required this.etat});
 
-  final _data = FakeRepo.data;
   final odooClient = OdooClient('http://10.0.2.2:8069');
   final montantHT = 0.00;
   final tax = 0.00;

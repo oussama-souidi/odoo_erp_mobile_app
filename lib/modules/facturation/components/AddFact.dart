@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/modules/facturation/clients/client_model.dart';
 import 'package:mobile_app/modules/facturation/components/AddProduct.dart';
+import 'package:mobile_app/modules/facturation/facturation.dart';
 import 'package:mobile_app/modules/facturation/produits/data_model.dart';
 import 'package:mobile_app/modules/facturation/produits/product_item.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../../pages/login_page.dart';
 
+List<DataModel> selectedProducts = [];
 
 class AddFact extends StatefulWidget {
   const AddFact({super.key});
@@ -23,6 +25,7 @@ class _AddFactState extends State<AddFact> {
   int? _selectedClientID;
   DateTime? selectedDate;
   bool isChecked = false;
+  final ref = TextEditingController();
   final Map<String, DateTime?> selectedDates = {};
   final odooClient = OdooClient('http://10.0.2.2:8069');
 
@@ -49,11 +52,12 @@ class _AddFactState extends State<AddFact> {
     await check();
     return odooClient.callKw(
       {
-        'model': 'acount.move',
+        'model': 'account.move',
         'method': 'create',
         'args': [
           {
             'move_type': 'out_invoice',
+            'name' : ref.text,
             'partner_id': _selectedClientID,
             'invoice_line_ids': selectedProducts.map((product) {
               return [
@@ -225,7 +229,8 @@ class _AddFactState extends State<AddFact> {
                         fontWeight: FontWeight.w400,
                         color: Colors.grey[700]),
                   ),
-                  TextField(
+                  TextFormField(
+                    controller: ref,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 15.w)),
                   ),
@@ -276,11 +281,15 @@ class _AddFactState extends State<AddFact> {
                     height: 20.h,
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+
+                      final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const AjouterProduit()));
+                      if (result == true){
+                        setState(() {});
+                      }
                     },
                     onHover: (_) {},
                     child: Container(
@@ -357,8 +366,8 @@ class _AddFactState extends State<AddFact> {
                 onPressed: () async {
                   try {
                     int productId = await addInvoiceRPC();
-                    print(productId);
-                    print('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
+                    selectedProducts = [];
+                    Navigator.pop(context, true);
                   } on SocketException catch (e) {
                     // Handle connection problems
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

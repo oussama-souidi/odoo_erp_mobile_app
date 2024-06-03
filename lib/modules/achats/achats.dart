@@ -7,10 +7,16 @@ import '../../pages/login_page.dart';
 import 'package:mobile_app/modules/achats/produits/AddProduct.dart';
 import 'components/fake_repository.dart';
 
-class Achats extends StatelessWidget {
-  final _data = FakeRepo.data;
+class Achats extends StatefulWidget {
 
   Achats({super.key});
+
+  @override
+  State<Achats> createState() => _AchatsState();
+}
+
+class _AchatsState extends State<Achats> {
+  final _data = FakeRepo.data;
 
   final odooClient = OdooClient('http://10.0.2.2:8069');
 
@@ -33,7 +39,7 @@ class Achats extends StatelessWidget {
   }
 
   Widget buildListItem(Map<String, dynamic> record) {
-    
+
     return ListItem(
         fournisseur: record['partner_id'][1].toString(),
         montant: record['amount_total'].toString(),
@@ -48,10 +54,12 @@ class Achats extends StatelessWidget {
       backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          onPressed: () {
-            selectedProducts = [];
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const AddCommand()));
+          onPressed: () async {selectedProducts = [];
+          final result = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AddCommand()));
+          if (result == true){
+            setState(() {});
+          }
           },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(

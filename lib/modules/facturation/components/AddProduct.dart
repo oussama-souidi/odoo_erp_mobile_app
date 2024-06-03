@@ -7,7 +7,6 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../../components/appBar.dart';
 import '../../../pages/login_page.dart';
 
-List<DataModel> selectedProducts = [];
 
 class AjouterProduit extends StatefulWidget {
   const AjouterProduit({super.key});
@@ -199,7 +198,7 @@ class _AjouterProduitState extends State<AjouterProduit> {
                           prixUnitaire: selectedProduct.prixUnitaire,
                           prix_horsTax: selectedProduct.prix_horsTax,
                           prix_avecTax: selectedProduct.prix_avecTax));
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(
