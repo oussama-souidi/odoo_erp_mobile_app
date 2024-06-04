@@ -18,14 +18,10 @@ class Facturation extends StatefulWidget {
 }
 
 class _FacturationState extends State<Facturation> {
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchFact() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'account.move',
       'method': 'search_read',

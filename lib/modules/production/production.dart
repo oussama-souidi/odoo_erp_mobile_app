@@ -8,14 +8,10 @@ import '../stock/components/list_item.dart';
 class Production extends StatelessWidget {
 
   Production({super.key});
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchVentes() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'stock.location',
       'method': 'search_read',

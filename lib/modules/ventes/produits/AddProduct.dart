@@ -27,14 +27,10 @@ class _AjouterProduitState extends State<AjouterProduit> {
       prix_avecTax: '');
 
   final quantite = TextEditingController();
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> products() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'product.product',
       'method': 'search_read',
@@ -87,6 +83,8 @@ class _AjouterProduitState extends State<AjouterProduit> {
                     return DropdownButton<String>(
                       isExpanded: true,
                       value: _selectedProduct,
+                      menuMaxHeight: 900.h,
+                      dropdownColor: Colors.white,
                       items: productNames
                           .map((String product) => DropdownMenuItem(
                         value: product,

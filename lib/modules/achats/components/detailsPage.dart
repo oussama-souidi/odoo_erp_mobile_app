@@ -21,17 +21,12 @@ class detailsPage extends StatelessWidget {
       required this.id,
       required this.date,
       required this.etat});
-
-  final odooClient = OdooClient('http://10.0.2.2:8069');
   final montantHT = 0.00;
   final tax = 0.00;
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchProduits() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'purchase.order.line',
       'method': 'search_read',
@@ -112,7 +107,7 @@ class detailsPage extends StatelessWidget {
                       'Fournisseur',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -129,7 +124,7 @@ class detailsPage extends StatelessWidget {
                       'Montant',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -146,7 +141,7 @@ class detailsPage extends StatelessWidget {
                       'Code de commande',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -163,7 +158,7 @@ class detailsPage extends StatelessWidget {
                       'Date de commande',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -180,7 +175,7 @@ class detailsPage extends StatelessWidget {
                       'Etat de commande',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(

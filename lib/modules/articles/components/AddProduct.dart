@@ -8,7 +8,7 @@ import '../../../pages/login_page.dart';
 class AddProduct extends StatefulWidget {
   AddProduct({super.key});
 
-  final odooClient = OdooClient('http://10.0.2.2:8069');
+
 
   @override
   State<AddProduct> createState() => _AddProductState();
@@ -21,12 +21,10 @@ class _AddProductState extends State<AddProduct> {
   final cout = TextEditingController();
   final quantite = TextEditingController();
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
+
 
   Future<dynamic> addProductRPC() async {
-    await check();
+
     return odooClient.callKw(
       {
         'model': 'product.product',
@@ -37,6 +35,7 @@ class _AddProductState extends State<AddProduct> {
             'default_code': refProduit.text,
             'list_price': prixVente.text,
             'standard_price': cout.text,
+            'qty_available' : quantite.text,
           }
         ],
         'kwargs': {}
@@ -98,7 +97,7 @@ class _AddProductState extends State<AddProduct> {
                       'Nom du produit',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -117,7 +116,7 @@ class _AddProductState extends State<AddProduct> {
                       'Référence interne',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextField(
@@ -132,7 +131,7 @@ class _AddProductState extends State<AddProduct> {
                       'Prix de vente',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -148,7 +147,7 @@ class _AddProductState extends State<AddProduct> {
                       'Coût',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -164,10 +163,11 @@ class _AddProductState extends State<AddProduct> {
                       'Quantité en stock',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
+                      controller: quantite,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 15.w),
                       ),
@@ -206,7 +206,11 @@ class _AddProductState extends State<AddProduct> {
                 onPressed: () async {
                   try {
                     int productId = await addProductRPC();
-                    print(productId);
+                    print(quantite);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Product created successfully!"),
+                    ));
+                    Navigator.pop(context, true);
                   } on SocketException catch (e) {
                     // Handle connection problems
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -224,12 +228,7 @@ class _AddProductState extends State<AddProduct> {
                       content: Text("Please try again later."),
                     ));
                   }
-                  finally{
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Product created successfully!"),
-                    ));
-                    Navigator.pop(context);
-                  }
+
                 },
                 style: TextButton.styleFrom(
                   padding:

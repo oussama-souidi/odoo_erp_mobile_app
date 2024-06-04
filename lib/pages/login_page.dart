@@ -2,17 +2,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mobile_app/components/my_textfield.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_page.dart';
-import 'login.dart';
 
-final odooClient = OdooClient('http://10.0.2.2:8069');
+
+
 String username ='';
 String password ='';
-
+String db = 'demo';
+String url = 'http://10.0.2.2:8069';
+final odooClient = OdooClient(url);
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -23,20 +25,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
+  bool _isLoading = false;
 
   
   void _handleLogin() async {
     // Create Odoo client instance with server URL (and database name if needed)
     try {
-      await odooClient.authenticate('demo', usernameController.text, passwordController.text);
+
+      final session = await odooClient.authenticate(db, usernameController.text, passwordController.text);
       username = usernameController.text;
       password = passwordController.text;
+      // remembering the sessio
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+      print(session.id);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('session_id', session.id);
+      prefs.setString('session_db', db);
+      prefs.setString('session_username', username);
+      prefs.setString('session_password', password);
+      print(prefs);
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+
       if (kDebugMode) {
         print("connected successfully");
       }
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
     } on SocketException catch (e) {
       // Handle connection problems
       Fluttertoast.showToast(
@@ -48,9 +61,7 @@ class _LoginPageState extends State<LoginPage> {
         textColor: Colors.black87,
         fontSize: 45.sp,
       );
-      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Connection error"),
-      ));*/
+
     } on OdooException catch (e) {
       // Handle API errors (likely invalid credentials)
       Fluttertoast.showToast(
@@ -62,9 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         textColor: Colors.black87,
         fontSize: 45.sp,
       );
-      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Invalid email or password"),
-      ));*/
+
     } catch (e) {
       // Handle API errors
       print("Unexpected error: $e");
@@ -77,26 +86,36 @@ class _LoginPageState extends State<LoginPage> {
         textColor: Colors.black87,
         fontSize: 45.sp,
       );
-      /*ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Please try again later."),
-      ));*/
     }
   }
-  void _handleForgotPassword() async {
-    final username = usernameController.text;
+  Future<bool> checkSession() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sessionId = prefs.getString('session_id');
+    String? sessionDb = prefs.getString('session_db');
+    String? sessionUsername = prefs.getString('session_username');
+    String? sessionPassword = prefs.getString('session_password');
 
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:8069/api/forgot-password'),
-      body: {'username': username},
-    );
-
-    if (response.statusCode == 200) {
-      // Password reset request sent successfully (display message to user)
-      print('Password reset request sent.');
+    if (sessionId != null && sessionDb != null && sessionUsername != null && sessionPassword != null) {
+      // Try to restore the session
+      try {
+        await odooClient.authenticate(sessionDb, sessionUsername, sessionPassword);
+        return true;  // Session restored
+      } catch (e) {
+        print('Error restoring session: $e');
+        return false;  // Session restore failed
+      }
     } else {
-      // Handle errors (e.g., invalid username, server error)
-      print('Error sending password reset request: ${response.statusCode}');
+      return false;  // No session found
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    checkSession().then((_) {
+      if (odooClient.sessionId != null) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+      }
+    });
   }
 
 
@@ -110,31 +129,32 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Image(
+              Image(
                   fit: BoxFit.cover,
-                  height: 150,
-                  width: 300,
-                  image: AssetImage(
+                  height: 300.h,
+                  width: 700.w,
+                  image: const AssetImage(
                     'assets/images/logo.png',
                   )),
-              const SizedBox(height: 25),
-              const Text(
+              SizedBox(height: 50.h),
+              Text(
                 "Login",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 80.sp, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 25),
+              SizedBox(height: 50.h),
               MyTextField(
                 controller: usernameController,
                 hintText: 'Username',
                 obscureText: false,
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 40.h),
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true,
               ),
               SizedBox(height: 50.h),
+
               TextButton(
                 // ignore: void_checks
                 onPressed: () {
@@ -151,13 +171,13 @@ class _LoginPageState extends State<LoginPage> {
                     color: const Color(0xff7f5e9d),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Sign In",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 45.sp,
                       ),
                     ),
                   ),

@@ -9,23 +9,15 @@ import 'components/fake_repository.dart';
 
 class Achats extends StatefulWidget {
 
-  Achats({super.key});
+  const Achats({super.key});
 
   @override
   State<Achats> createState() => _AchatsState();
 }
 
 class _AchatsState extends State<Achats> {
-  final _data = FakeRepo.data;
-
-  final odooClient = OdooClient('http://10.0.2.2:8069');
-
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchAchats() async {
-    await check();
     return odooClient.callKw({
       'model': 'purchase.order',
       'method': 'search_read',

@@ -36,14 +36,9 @@ class _AddCommandState extends State<AddCommand> {
       });
     }
   }
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchclient() async {
-    await check();
     return odooClient.callKw({
       'model': 'res.partner',
       'method': 'search_read',
@@ -56,7 +51,7 @@ class _AddCommandState extends State<AddCommand> {
     });
   }
   Future<dynamic> addSaleRPC() async {
-    await check();
+
     return odooClient.callKw(
       {
         'model': 'sale.order',
@@ -155,6 +150,8 @@ class _AddCommandState extends State<AddCommand> {
                           return DropdownButton<String>(
                             isExpanded: true,
                             value: _selectedClient,
+                            menuMaxHeight: 900.h,
+                            dropdownColor: Colors.white,
                             items: partnerNames
                                 .map((String client) => DropdownMenuItem(
                               value: client,

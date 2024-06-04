@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/components/appBar.dart';
 import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/facturation/components/AddFact.dart';
+import 'package:mobile_app/modules/partenaires/AddPartner.dart';
 import 'package:mobile_app/modules/partenaires/list_item.dart';
 import 'package:mobile_app/modules/partenaires/client_model.dart';
 import 'package:mobile_app/modules/partenaires/detailsClient.dart';
@@ -10,19 +11,16 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../pages/login_page.dart';
 
-class Partenaires extends StatelessWidget {
-  Partenaires({super.key});
+class Partenaires extends StatefulWidget {
+  const Partenaires({super.key});
 
+  @override
+  State<Partenaires> createState() => _PartenairesState();
+}
 
-
-  final odooClient = OdooClient('http://10.0.2.2:8069');
-
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
-
+class _PartenairesState extends State<Partenaires> {
   Future<dynamic> fetchFact() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'res.partner',
       'method': 'search_read',
@@ -54,7 +52,7 @@ class Partenaires extends StatelessWidget {
     return ListItem(
       displayName: record['name'].toString(),
       city: record['city'].toString(),
-      country: record['country_id'][1].toString(),
+      country: record['country_id']is String ? record['country_id'][1].toString() : '',
       email: record['email'].toString(),
       imageUrl: 'https://upload.wikimedia.org/wikipedia/pt/thumb/0/02/Satoru_Gojo.png/180px-Satoru_Gojo.png',
     );
@@ -66,7 +64,14 @@ class Partenaires extends StatelessWidget {
       backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          onPressed: () {},
+          onPressed: () async {
+            final result = await Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddPartner()));
+            if (result){
+              setState(() {
+              });
+            }
+          },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(
             Icons.add,
@@ -122,9 +127,9 @@ class Partenaires extends StatelessWidget {
                                       nomClient: record['name'] is String ? record['name'] : '',
                                       rue: record['street']is String ? record['street'] : '',
                                       ville: record['city']is String ? record['city'] : '',
-                                      etat: record['state_id'][1]is String ? record['state_id'][1] : '',
+                                      etat: record['state_id']is String ? record['state_id'][1] : '',
                                       codePostal: record['zip']is String ? record['zip'] : '',
-                                      pays: record['country_id'][1]is String ? record['country_id'][1] : '',
+                                      pays: record['country_id']is String ? record['country_id'][1] : '',
                                       nTVA: record['vat']is String ? record['vat'] : '',
                                       tel: record['phone']is String ? record['phone'] : '',
                                       email: record['email']is String ? record['email'] : '',

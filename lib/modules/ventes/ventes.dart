@@ -14,14 +14,10 @@ class Ventes extends StatelessWidget {
   final _data = FakeRepo.data;
 
   Ventes({super.key});
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchVentes() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'sale.order',
       'method': 'search_read',

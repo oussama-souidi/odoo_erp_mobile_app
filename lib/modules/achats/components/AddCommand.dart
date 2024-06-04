@@ -26,14 +26,10 @@ class _AddCommandState extends State<AddCommand> {
   String? _selectedClient;
   int? _selectedClientID;
   final Map<String, DateTime?> selectedDates = {};
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> fetchFournisseurs() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'res.partner',
       'method': 'search_read',
@@ -46,7 +42,7 @@ class _AddCommandState extends State<AddCommand> {
     });
   }
   Future<dynamic> addPurchaseRPC() async {
-    await check();
+
     return odooClient.callKw(
       {
         'model': 'purchase.order',
@@ -159,6 +155,8 @@ class _AddCommandState extends State<AddCommand> {
                           return DropdownButton<String>(
                             isExpanded: true,
                             value: _selectedClient,
+                            menuMaxHeight: 900.h,
+                            dropdownColor: Colors.white,
                             items: partnerNames
                                 .map((String client) => DropdownMenuItem(
                                       value: client,
@@ -443,7 +441,7 @@ class _AddCommandState extends State<AddCommand> {
                 child: Text("Imprimer", style: TextStyle(fontSize: 45.sp)),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {Navigator.pop(context);},
                 style: TextButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 45.w),

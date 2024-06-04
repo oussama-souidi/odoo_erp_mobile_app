@@ -23,16 +23,12 @@ class detailsPage extends StatelessWidget {
       required this.date,
       required this.etat});
 
-  final odooClient = OdooClient('http://10.0.2.2:8069');
   final montantHT = 0.00;
   final tax = 0.00;
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
+
 
   Future<dynamic> fetchProduits() async {
-    await check();
     return odooClient.callKw({
       'model': 'sale.order.line',
       'method': 'search_read',
@@ -107,9 +103,9 @@ class detailsPage extends StatelessWidget {
                     Text(
                       'Client',
                       style: TextStyle(
-                          fontSize: 50.sp,
+                          fontSize: 44.sp,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Colors.grey[700]),
                     ),
                     SizedBox(
                       height: 20.h,
@@ -127,9 +123,9 @@ class detailsPage extends StatelessWidget {
                     Text(
                       'Date de commande',
                       style: TextStyle(
-                          fontSize: 50.sp,
+                          fontSize: 44.sp,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Colors.grey[700]),
                     ),
                     TextFormField(
                       readOnly: true,
@@ -144,9 +140,9 @@ class detailsPage extends StatelessWidget {
                     Text(
                       'Etat de commande',
                       style: TextStyle(
-                          fontSize: 50.sp,
+                          fontSize: 44.sp,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                          color: Colors.grey[700]),
                     ),
                     TextFormField(
                       readOnly: true,

@@ -27,15 +27,9 @@ class _AddFactState extends State<AddFact> {
   bool isChecked = false;
   final ref = TextEditingController();
   final Map<String, DateTime?> selectedDates = {};
-  final odooClient = OdooClient('http://10.0.2.2:8069');
 
-
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
 
   Future<dynamic> partners() async {
-    await check();
     return odooClient.callKw({
       'model': 'res.partner',
       'method': 'search_read',
@@ -49,7 +43,7 @@ class _AddFactState extends State<AddFact> {
   }
 
   Future<dynamic> addInvoiceRPC() async {
-    await check();
+
     return odooClient.callKw(
       {
         'model': 'account.move',
@@ -176,6 +170,8 @@ class _AddFactState extends State<AddFact> {
                         return DropdownButton<String>(
                           isExpanded: true,
                           value: _selectedClient,
+                          menuMaxHeight: 900.h,
+                          dropdownColor: Colors.white,
                           items: partnerNames
                               .map((String client) => DropdownMenuItem(
                                     value: client,
@@ -262,19 +258,16 @@ class _AddFactState extends State<AddFact> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 50.h, top: 50.h),
+              padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 65.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 65.w, bottom: 20.h),
-                    child: Text(
-                      'Lignes de facture',
-                      style: TextStyle(
-                          fontSize: 55.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
+                  Text(
+                    'Lignes de facture',
+                    style: TextStyle(
+                        fontSize: 55.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
                   const Divider(),
                   SizedBox(

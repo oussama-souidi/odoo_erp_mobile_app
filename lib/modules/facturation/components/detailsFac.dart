@@ -28,18 +28,15 @@ class DetailsFac extends StatelessWidget {
       required this.dateEch,
       required this.dateLiv,
       required this.etat});
-  final odooClient = OdooClient('http://10.0.2.2:8069');
   final montantHT = 0.00;
   final tax = 0.00;
 
 
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
+
 
   Future<dynamic> fetchProduits() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'account.move.line',
       'method': 'search_read',

@@ -5,17 +5,18 @@ import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../pages/login_page.dart';
 import 'components/AddProduct.dart';
 
-class Articles extends StatelessWidget {
+class Articles extends StatefulWidget {
   Articles({super.key});
 
-  final odooClient = OdooClient('http://10.0.2.2:8069');
+  @override
+  State<Articles> createState() => _ArticlesState();
+}
 
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
+class _ArticlesState extends State<Articles> {
+
 
   Future<dynamic> fetchArticles() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'product.template',
       'method': 'search_read',
@@ -49,10 +50,14 @@ class Articles extends StatelessWidget {
       backgroundColor: const Color(0xfff7f7f7),
       floatingActionButton: Builder(
         builder: (context) => FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            final result = await Navigator.push(
                 context, MaterialPageRoute(builder: (context) => AddProduct()));
-          },
+            if (result){
+              setState(() {
+              });
+            }
+            },
           backgroundColor: const Color(0xff8c7bc9),
           child: const Icon(
             Icons.add,

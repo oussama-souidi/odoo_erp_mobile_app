@@ -10,16 +10,10 @@ class detailsPage extends StatelessWidget {
   final String name;
   final String id;
 
-  detailsPage({super.key, required this.name, required this.id});
-
-  final odooClient = OdooClient('http://10.0.2.2:8069');
-
-  Future<dynamic> check() async {
-    await odooClient.authenticate('demo', username, password);
-  }
+  const detailsPage({super.key, required this.name, required this.id});
 
   Future<dynamic> fetchProduits() async {
-    await check();
+
     return odooClient.callKw({
       'model': 'stock.quant',
       'method': 'search_read',

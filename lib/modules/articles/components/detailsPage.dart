@@ -42,7 +42,7 @@ class detailsPage extends StatelessWidget {
                       'Nom du produit',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -59,7 +59,7 @@ class detailsPage extends StatelessWidget {
                       'Référence interne',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -76,7 +76,7 @@ class detailsPage extends StatelessWidget {
                       'Prix de vente',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -93,7 +93,7 @@ class detailsPage extends StatelessWidget {
                       'Coût',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(
@@ -110,7 +110,7 @@ class detailsPage extends StatelessWidget {
                       'Quantité en stock',
                       style: TextStyle(
                           fontSize: 44.sp,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w500,
                           color: Colors.grey[700]),
                     ),
                     TextFormField(

@@ -8,12 +8,13 @@ import 'package:mobile_app/modules/production/production.dart';
 import 'package:mobile_app/modules/stock/stock.dart';
 import 'package:mobile_app/pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/appBar.dart';
 import '../modules/facturation/facturation.dart';
 import '../modules/ventes/ventes.dart';
 
-final odooClient = OdooClient('http://10.0.2.2:8069');
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -46,7 +47,12 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
-
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('session_id'));
+    await prefs.clear();
+    odooClient.destroySession();
+  }
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
@@ -192,7 +198,8 @@ class _HomePageState extends State<HomePage> {
                       Icons.exit_to_app,
                       color: Color(0xff001950),
                     ),
-                    onTap: () {
+                    onTap: () async{
+                      await logout();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                     },
                   ),
