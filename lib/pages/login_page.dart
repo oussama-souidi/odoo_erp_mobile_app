@@ -14,6 +14,7 @@ String username ='';
 String password ='';
 String db = 'demo';
 String url = 'http://10.0.2.2:8069';
+bool _isLoading = false;
 final odooClient = OdooClient(url);
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,13 +26,15 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _isLoading = false;
+
 
   
   void _handleLogin() async {
     // Create Odoo client instance with server URL (and database name if needed)
     try {
-
+      setState(() {
+        _isLoading = true;
+      });
       final session = await odooClient.authenticate(db, usernameController.text, passwordController.text);
       username = usernameController.text;
       password = passwordController.text;
@@ -49,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
       if (kDebugMode) {
         print("connected successfully");
       }
-
+      if(mounted) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
+      }
     } on SocketException catch (e) {
       // Handle connection problems
       Fluttertoast.showToast(
@@ -86,6 +92,10 @@ class _LoginPageState extends State<LoginPage> {
         textColor: Colors.black87,
         fontSize: 45.sp,
       );
+    } finally{
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
   Future<bool> checkSession() async {
@@ -112,7 +122,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     checkSession().then((_) {
-      if (odooClient.sessionId != null) {
+      if (odooClient.sessionId?.userId != 0) {
+        print('el mochkla lenaaaaaaaaaaaaaaaaaaaa');
+        print(odooClient.sessionId);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
       }
     });

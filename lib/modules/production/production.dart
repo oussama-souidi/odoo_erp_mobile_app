@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:odoo_rpc/odoo_rpc.dart';
 import '../../pages/login_page.dart';
 import '../stock/components/list_item.dart';
 

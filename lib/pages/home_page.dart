@@ -6,6 +6,7 @@ import 'package:mobile_app/modules/articles/articles.dart';
 import 'package:mobile_app/modules/partenaires/partenaires.dart';
 import 'package:mobile_app/modules/production/production.dart';
 import 'package:mobile_app/modules/stock/stock.dart';
+import 'package:mobile_app/pages/dashboard.dart';
 import 'package:mobile_app/pages/login_page.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,20 +49,24 @@ class _HomePageState extends State<HomePage> {
     });
   }
   Future<void> logout() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('session_id'));
     await prefs.clear();
-    odooClient.destroySession();
+    await odooClient.destroySession();
+    if(mounted) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    }
   }
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const Text("Home page"),
+      Dashboard(),
       Facturation(),
       Ventes(),
-      Achats(),
-      Stock(),
-      Partenaires(),
+      const Achats(),
+      const Stock(),
+      const Partenaires(),
       Articles(),
       Production(),
       const Text("logout"),
@@ -200,7 +205,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onTap: () async{
                       await logout();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
                     },
                   ),
                 ])
