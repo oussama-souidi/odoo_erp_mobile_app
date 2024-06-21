@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/components/my_textfield.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'home_page.dart';
-
 
 
 String username ='';
@@ -15,7 +15,10 @@ String password ='';
 String db = 'demo';
 String url = 'http://10.0.2.2:8069';
 bool _isLoading = false;
+final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 final odooClient = OdooClient(url);
+
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -26,8 +29,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
-
   
   void _handleLogin() async {
     // Create Odoo client instance with server URL (and database name if needed)
@@ -35,18 +36,24 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
+
       final session = await odooClient.authenticate(db, usernameController.text, passwordController.text);
       username = usernameController.text;
       password = passwordController.text;
-      // remembering the sessio
-      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-      print(session.id);
+
+      await secureStorage.write(key: 'session_id', value: session.id);
+      await secureStorage.write(key: 'session_username', value: username);
+      await secureStorage.write(key: 'session_password', value: password);
+      await secureStorage.write(key: 'session_db', value: db);
+      // not so secure storage
+      /*
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('session_id', session.id);
       prefs.setString('session_db', db);
       prefs.setString('session_username', username);
       prefs.setString('session_password', password);
       print(prefs);
+      */
       print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
       if (kDebugMode) {
@@ -82,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
 
     } catch (e) {
       // Handle API errors
+      print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       print("Unexpected error: $e");
       Fluttertoast.showToast(
         msg: "Please try again later.",
@@ -99,11 +107,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
   Future<bool> checkSession() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? sessionId = prefs.getString('session_id');
-    String? sessionDb = prefs.getString('session_db');
-    String? sessionUsername = prefs.getString('session_username');
-    String? sessionPassword = prefs.getString('session_password');
+    String? sessionId = await secureStorage.read(key: 'session_id');
+    String? sessionDb = await secureStorage.read(key: 'session_db');
+    String? sessionUsername = await secureStorage.read(key: 'session_username');
+    String? sessionPassword = await secureStorage.read(key: 'session_password');
 
     if (sessionId != null && sessionDb != null && sessionUsername != null && sessionPassword != null) {
       // Try to restore the session
@@ -118,17 +125,7 @@ class _LoginPageState extends State<LoginPage> {
       return false;  // No session found
     }
   }
-  @override
-  void initState() {
-    super.initState();
-    checkSession().then((_) {
-      if (odooClient.sessionId?.userId != 0) {
-        print('el mochkla lenaaaaaaaaaaaaaaaaaaaa');
-        print(odooClient.sessionId);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
-      }
-    });
-  }
+
 
 
   @override

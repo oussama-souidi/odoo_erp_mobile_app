@@ -11,7 +11,7 @@ import '../../pages/login_page.dart';
 import 'components/fake_repository.dart';
 
 class Facturation extends StatefulWidget {
-  Facturation({super.key});
+  const Facturation({super.key});
 
   @override
   State<Facturation> createState() => _FacturationState();

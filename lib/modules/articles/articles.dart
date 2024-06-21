@@ -6,7 +6,7 @@ import '../../pages/login_page.dart';
 import 'components/AddProduct.dart';
 
 class Articles extends StatefulWidget {
-  Articles({super.key});
+  const Articles({super.key});
 
   @override
   State<Articles> createState() => _ArticlesState();

@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../pages/login_page.dart';
-import '../stock/components/list_item.dart';
-
+import '../production/components/list_item.dart';
 
 class Production extends StatelessWidget {
+  const Production({super.key});
 
-  Production({super.key});
-
-
-  Future<dynamic> fetchVentes() async {
-
+  Future<dynamic> fetchMO() async {
     return odooClient.callKw({
-      'model': 'stock.location',
+      'model': 'mrp.production',
       'method': 'search_read',
       'args': [],
       'kwargs': {
         'context': {'bin_size': true},
-        'domain': [['location_id.usage', '=', 'internal']],
-        'fields': ['name', 'location_id'],
-
+        'domain': [["state", "in", ["draft", "confirmed", "progress", "to_close"]]],
+        'fields': ['product_id', 'name','product_qty','state','date_start','bom_id'],
       },
     });
   }
+
   Widget buildListItem(Map<String, dynamic> record) {
     return ListItem(
-        name: record['name'].toString(),
-        id: record['location_id'][1].toString());
+      name: record['name'].toString(),
+      product: record['product_id'][1].toString(),
+      quantity: record['product_qty'].toString(),
+      date: record['date_start'].toString(),
+      etat: record['state'].toString(),
+      bom: record['bom_id'][1].toString(),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +44,7 @@ class Production extends StatelessWidget {
                 height: 50.h,
               ),
               Text(
-                'Emplacements',
+                'Ordres de fabrication',
                 style: TextStyle(fontSize: 55.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(
@@ -51,18 +53,17 @@ class Production extends StatelessWidget {
               SizedBox(
                 height: 1900.h,
                 child: FutureBuilder(
-                    future: fetchVentes(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    future: fetchMO(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.hasData) {
-                        return
-                          ListView.builder(
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                final record =
-                                snapshot.data[index] as Map<String, dynamic>;
-                                return buildListItem(record);
-                              });
+                        return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              final record =
+                                  snapshot.data[index] as Map<String, dynamic>;
+                              return buildListItem(record);
+                            });
                       } else {
                         if (snapshot.hasError) {
                           return Text(snapshot.error.toString());
@@ -71,7 +72,6 @@ class Production extends StatelessWidget {
                       }
                     }),
               ),
-
             ],
           ),
         ),

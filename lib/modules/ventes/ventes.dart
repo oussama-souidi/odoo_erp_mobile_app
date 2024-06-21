@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/components/appBar.dart';
-import 'package:mobile_app/components/navbar.dart';
 import 'package:mobile_app/modules/ventes/components/AddCommand.dart';
 import 'package:mobile_app/modules/ventes/components/list_item.dart';
-import 'package:odoo_rpc/odoo_rpc.dart';
 
 import '../../pages/login_page.dart';
-import 'package:mobile_app/modules/ventes/produits/AddProduct.dart';
-import 'components/fake_repository.dart';
 
 class Ventes extends StatelessWidget {
-  final _data = FakeRepo.data;
 
-  Ventes({super.key});
+  const Ventes({super.key});
 
 
   Future<dynamic> fetchVentes() async {

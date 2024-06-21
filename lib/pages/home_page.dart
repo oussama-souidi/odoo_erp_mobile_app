@@ -50,8 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
   Future<void> logout() async {
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await secureStorage.deleteAll();
     await odooClient.destroySession();
     if(mounted) {
       Navigator.pushReplacement(
@@ -62,13 +61,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       Dashboard(),
-      Facturation(),
-      Ventes(),
+      const Facturation(),
+      const Ventes(),
       const Achats(),
       const Stock(),
       const Partenaires(),
-      Articles(),
-      Production(),
+      const Articles(),
+      const Production(),
       const Text("logout"),
     ];
 
