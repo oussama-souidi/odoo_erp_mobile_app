@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +74,7 @@ class DashboardCard extends StatelessWidget {
   final String description;
   final VoidCallback onTap;
 
-  DashboardCard({
+  const DashboardCard({super.key,
     required this.icon,
     required this.label,
     required this.description,

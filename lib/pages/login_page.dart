@@ -13,7 +13,7 @@ import 'home_page.dart';
 String username ='';
 String password ='';
 String db = 'demo';
-String url = 'http://10.0.2.2:8069';
+String url = 'http://192.168.56.1:8069';
 bool _isLoading = false;
 final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 final odooClient = OdooClient(url);
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setString('session_password', password);
       print(prefs);
       */
-      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
 
       if (kDebugMode) {
         print("connected successfully");

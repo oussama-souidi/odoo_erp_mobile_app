@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/components/appBar.dart';
@@ -40,7 +42,7 @@ class _PartenairesState extends State<Partenaires> {
           'vat',
           'website',
           'zip',
-          'image_128',
+          'image_1920',
         ],
       },
     });
