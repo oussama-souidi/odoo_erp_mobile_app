@@ -1,6 +1,6 @@
-# Odoo Mobile
+# Odoo ERP Mobile Application 
 
-Flutter mobile client for Odoo with modules for purchases, sales, inventory, production, and billing. The app provides authentication and a dashboard with quick access to business workflows.
+Flutter mobile client for Odoo ERP with modules for purchases, sales, inventory, production, and billing. The app provides authentication and a dashboard with quick access to business workflows.
 
 ## Project Context
 
